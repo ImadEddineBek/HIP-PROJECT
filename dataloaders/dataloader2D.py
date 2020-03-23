@@ -33,19 +33,23 @@ class HipLandmarksDataset(Dataset):
         self.landmarks_frame = pd.read_csv(csv_file)
         self.root_dir = root_dir
         self.transform = transform
-        self.landmark_to_idx = ['left_edge_x', 'left_edge_y', 'left_edge_z',
-                                'left_head_x', 'left_head_y', 'left_head_z',
-                                'left_neck_x1', 'left_neck_x2', 'left_neck_y', 'left_neck_z1', 'left_neck_z2',
-                                'left_shaft_x1', 'left_shaft_x2', 'left_shaft_y', 'left_shaft_z1', 'left_shaft_z2',
-                                'left_vertical_x1', 'left_vertical_x2', 'left_vertical_y', 'left_vertical_z1',
-                                'left_vertical_z2',
+        self.landmark_to_idx = ['left_edge',
+                                'left_head',
+                                'left_neck_1',
+                                'left_neck_2',
+                                'left_shaft_1',
+                                'left_shaft_2',
+                                'left_vertical_1',
+                                'left_vertical_2',
 
-                                'right_edge_x', 'right_edge_y', 'right_edge_z',
-                                'right_head_x', 'right_head_y', 'right_head_z',
-                                'right_neck_x1', 'right_neck_x2', 'right_neck_y', 'right_neck_z1', 'right_neck_z2',
-                                'right_shaft_x1', 'right_shaft_x2', 'right_shaft_y', 'right_shaft_z1', 'right_shaft_z2',
-                                'right_vertical_x1', 'right_vertical_x2', 'right_vertical_y', 'right_vertical_z1',
-                                'right_vertical_z2']
+                                'left_edge',
+                                'left_head',
+                                'left_neck_1',
+                                'left_neck_2',
+                                'left_shaft_1',
+                                'left_shaft_2',
+                                'left_vertical_1',
+                                'left_vertical_2']
         self.landmark_to_idx = {self.landmark_to_idx[i]: i for i in range(len(self.landmark_to_idx))}
         self.idx_to_landmark = {v: k for k, v in self.landmark_to_idx.items()}
 
@@ -109,6 +113,28 @@ class HipLandmarksDataset(Dataset):
         return sample
 
 
+def get_dataloader2D(config):
+    transform_train = transforms.Compose([
+        # transforms.Resize(config.image_size),
+        transforms.ToTensor(),
+        # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    ])
+    transform_test = transforms.Compose([
+        # transforms.Resize(config.image_size),
+        transforms.ToTensor(),
+        # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    ])
+
+    dataset_train = HipLandmarksDataset(config.data_csv_train, config.data_root, transform_train)
+    dataset_test = HipLandmarksDataset(config.data_csv_test, config.data_root, transform_test)
+    train_loader = DataLoader(dataset=dataset_train, batch_size=config.batch_size, shuffle=True,
+                              num_workers=config.num_workers)
+
+    test_loader = DataLoader(dataset=dataset_test, batch_size=config.batch_size, shuffle=False,
+                             num_workers=config.num_workers)
+    return train_loader, test_loader
+
+
 if __name__ == '__main__':
 
     def show_landmarks(image, landmarks):
@@ -131,10 +157,6 @@ if __name__ == '__main__':
 
         print(i, sample['image'].shape, sample['landmarks'].shape)
 
-        # ax = plt.subplot(1, 4, i + 1)
-        # plt.tight_layout()
-        # ax.set_title('Sample #{}'.format(i))
-        # ax.axis('off')
         show_landmarks(**sample)
 
         if i == 3:

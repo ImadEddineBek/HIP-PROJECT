@@ -1,3 +1,8 @@
 <component name="ProjectDictionaryState">
-  <dictionary name="imad" />
+  <dictionary name="imad">
+    <words>
+      <w>conv</w>
+      <w>dataloader</w>
+    </words>
+  </dictionary>
 </component>
