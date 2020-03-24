@@ -14,6 +14,7 @@ from torchvision import transforms, utils
 # Ignore warnings
 import warnings
 
+from dataloaders.transforms2D import *
 from utils.utils import fix_path
 
 warnings.filterwarnings("ignore")
@@ -63,7 +64,9 @@ class HipLandmarksDataset(Dataset):
         img_name = os.path.join(self.root_dir,
                                 self.landmarks_frame['images'][idx])
         # y = self.landmarks_frame['right_head_y'][idx]
-        image = np.load(img_name)
+        image = np.array(np.load(img_name), dtype=np.float32)
+        image = image / image.max()
+        # print(image.shape)
 
         # left
         landmarks = [self.landmarks_frame['left_edge_x'][idx], self.landmarks_frame['left_edge_y'][idx],
@@ -105,23 +108,24 @@ class HipLandmarksDataset(Dataset):
 
         landmarks = np.array([landmarks])
         landmarks = landmarks.astype('int').reshape(-1, 3)
-        sample = {'image': image, 'landmarks': landmarks}
 
+        sample = {'image': image, 'landmarks': landmarks}
         if self.transform:
             sample = self.transform(sample)
 
-        return sample
+        return sample['image'], sample['landmarks']
 
 
 def get_dataloader2D(config):
     transform_train = transforms.Compose([
+        # transforms.ToPILImage(),
         # transforms.Resize(config.image_size),
-        transforms.ToTensor(),
+        ToTensor(),
         # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
     transform_test = transforms.Compose([
         # transforms.Resize(config.image_size),
-        transforms.ToTensor(),
+        ToTensor(),
         # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
 

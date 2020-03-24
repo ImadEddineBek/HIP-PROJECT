@@ -9,20 +9,20 @@ from torch import nn as nn, cat
 class Conv2DPatches(nn.Module):
     def __init__(self, jigsaw_classes=100, n_classes=16, dropout=True):
         super(Conv2DPatches, self).__init__()
-        print("Using Caffe AlexNet")
+        print("Using 2D Convolutional Patched model")
         self.features = nn.Sequential(OrderedDict([
-            ("conv1", nn.Conv2d(1, 16, kernel_size=11, stride=2)),
+            ("conv1", nn.Conv2d(1, 16, kernel_size=11, stride=3)),
             ("relu1", nn.ReLU(inplace=True)),
-            ("pool1", nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True)),
+            ("pool1", nn.MaxPool2d(kernel_size=5, stride=3)),
             ("norm1", nn.LocalResponseNorm(5, 1.e-4, 0.75)),
-            ("conv2", nn.Conv2d(16, 32, kernel_size=5, padding=2, groups=2)),
+            ("conv2", nn.Conv2d(16, 32, kernel_size=5, stride=2)),
             ("relu2", nn.ReLU(inplace=True)),
-            ("pool2", nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True)),
+            ("pool2", nn.MaxPool2d(kernel_size=5, stride=2)),
             ("norm2", nn.LocalResponseNorm(5, 1.e-4, 0.75)),
-            ("conv3", nn.Conv2d(32, 64, kernel_size=3, padding=1)),
+            ("conv3", nn.Conv2d(32, 16, kernel_size=5)),
             ("relu3", nn.ReLU(inplace=True)),
         ]))
-        self.fc_size = 4096
+        self.fc_size = 144
         # self.y_classifier = nn.Sequential(OrderedDict([
         #     ("fc6", nn.Linear(256 * 6 * 6, self.fc_size)),
         #     ("relu6", nn.ReLU(inplace=True)),
@@ -38,18 +38,19 @@ class Conv2DPatches(nn.Module):
 
         self.point_detectors = []
         for i in range(n_classes):
-            self.point_detectors = nn.Sequential(
+            self.point_detectors.append(nn.Sequential(
                 nn.Linear(self.fc_size, 2),
-            )
+            ))
+        self.point_detectors = nn.ModuleList(self.point_detectors)
 
         for m in self.modules():
             if isinstance(m, nn.Linear):
                 nn.init.xavier_uniform_(m.weight, .1)
                 nn.init.constant_(m.bias, 0.)
 
-    def get_params(self, base_lr):
-        return [{"params": self.features.parameters(), "lr": 0.1},
-                {"params": chain((net.parameters() for net in self.point_detectors)), "lr": base_lr}]
+    # def get_params(self, base_lr):
+    #     return [{"params": self.features.parameters(), "lr": 0.1},
+    #             {"params": chain((net.parameters() for net in self.point_detectors)), "lr": base_lr}]
 
     @staticmethod
     def is_patch_based():
@@ -57,13 +58,13 @@ class Conv2DPatches(nn.Module):
 
     def forward(self, x):
         # set_trace()
-        B, L, C, H, W = x.size()
-        x_encoded = self.features(x.view(B * L, C, H, W))
+        B, L, H, W = x.size()
+        x_encoded = self.features(x.view(B * L, 1, H, W))
         # x = self.classifier(x.view(B, -1))
-
-        jig_out = self.jigsaw_classifier(x_encoded.view(B, -1))
-        output = torch.zeros([B, L, 2], dtype=torch.float32)
+        # print('here', x_encoded.size())
+        jig_out = self.jigsaw_classifier(x_encoded.view(B * L, -1))
+        detected_points = torch.zeros([B, L, 2], dtype=torch.float32)
         for i in range(L):
-            output[:, i] = self.point_detectors(x_encoded.view(B, L, -1)[:, i])
+            detected_points[:, i] = self.point_detectors[i](x_encoded.view(B, L, -1)[:, i])
 
-        return jig_out, output
+        return jig_out, detected_points

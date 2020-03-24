@@ -56,12 +56,20 @@ class ToTensor(object):
 
     def __call__(self, sample):
         image, landmarks = sample['image'], sample['landmarks']
-
+        H, L, W = image.shape
+        # print('here1', L, H, W)
         # swap color axis because
         # numpy image: H x W x C
         # torch image: C X H X W
-        image = image.transpose((2, 0, 1))
-        return {'image': torch.from_numpy(image),
+        # print('here2', landmarks.shape)
+        landmarks[:, 0] = landmarks[:, 0] * 350 // H
+        landmarks[:, 2] = landmarks[:, 0] * 350 // W
+        image = image.transpose((1, 0, 2))
+        image_ = np.zeros((L, 350, 350))
+        for i in range(L):
+            image_[i] = transform.resize(image[i], (350, 350))
+        # print('here2', image_.shape)
+        return {'image': torch.from_numpy(image_),
                 'landmarks': torch.from_numpy(landmarks)}
 
 
