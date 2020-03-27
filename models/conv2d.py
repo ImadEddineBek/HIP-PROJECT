@@ -3,7 +3,7 @@ from itertools import chain
 
 import torch
 from IPython.core.debugger import set_trace
-from torch import nn as nn, cat
+from torch import nn as nn
 
 
 class Conv2DPatches(nn.Module):

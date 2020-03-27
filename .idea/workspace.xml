@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5364f961-806b-44bf-bca9-8dbebe3b1e86" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/data/data/19_0.npy" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/data/data/19_1.npy" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/data/data/19_2.npy" afterDir="false" />
@@ -28,10 +27,7 @@
       <change afterPath="$PROJECT_DIR$/data/data/33_2.npy" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/data/data/33_3.npy" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/data/data/33_4.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/HIP-PROJECT.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/HIP-PROJECT.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/data.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dataloaders/dataloader2D.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataloaders/dataloader2D.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dataloaders/transforms2D.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataloaders/transforms2D.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
@@ -60,11 +56,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="38" column="59" lean-forward="true" selection-start-line="38" selection-start-column="59" selection-end-line="38" selection-end-column="59" />
+            <state relative-caret-position="450">
+              <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -75,8 +71,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/trainers/trainer2D.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="24" column="74" selection-start-line="24" selection-start-column="72" selection-end-line="24" selection-end-column="74" />
+            <state relative-caret-position="747">
+              <caret line="84" column="78" selection-start-line="84" selection-start-column="78" selection-end-line="84" selection-end-column="78" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -84,11 +80,16 @@
           </provider>
         </entry>
       </file>
+      <file pinned="true" current-in-tab="false">
+        <entry file="remoteDeploymentFS://&lt;f7a82ae8-0315-4da8-87de-abf06e19e6e0&gt;/home/imad/projects/HIP/DeepLearning/artifacts/predictions/img.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dataloaders/dataloader2D.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="134" column="31" lean-forward="true" selection-start-line="134" selection-start-column="31" selection-end-line="134" selection-end-column="31" />
+            <state relative-caret-position="390">
+              <caret line="127" column="15" selection-start-line="127" selection-start-column="15" selection-end-line="127" selection-end-column="15" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -99,19 +100,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/conv2d.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="42" column="14" lean-forward="true" selection-start-line="42" selection-start-column="14" selection-end-line="42" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dataloaders/transforms2D.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="855">
-              <caret line="72" column="55" selection-start-line="72" selection-start-column="55" selection-end-line="72" selection-end-column="55" />
+            <state relative-caret-position="698">
+              <caret line="53" selection-start-line="53" selection-end-line="53" />
               <folding>
-                <element signature="e#0#12#0" expanded="true" />
+                <element signature="e#0#35#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -119,12 +111,24 @@
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/data.csv">
+          <provider selected="true" editor-type-id="csv-text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="176" selection-start-line="1" selection-start-column="173" selection-end-line="1" selection-end-column="176" />
+            </state>
+          </provider>
           <provider editor-type-id="csv-table-editor">
             <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
           </provider>
-          <provider selected="true" editor-type-id="csv-text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="125" selection-start-line="11" selection-start-column="125" selection-end-line="11" selection-end-column="125" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/dataloaders/transforms2D.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="536">
+              <caret line="128" column="41" lean-forward="true" selection-start-line="128" selection-start-column="41" selection-end-line="128" selection-end-column="41" />
+              <folding>
+                <element signature="e#18#33#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -175,16 +179,16 @@
         <option value="$PROJECT_DIR$/trainers.py" />
         <option value="$PROJECT_DIR$/trainers/trainer.py" />
         <option value="$USER_HOME$/anaconda3/envs/AI-LAB/lib/python3.7/site-packages/torchvision/transforms/functional.py" />
-        <option value="$PROJECT_DIR$/dataloaders/transforms2D.py" />
-        <option value="$PROJECT_DIR$/dataloaders/dataloader2D.py" />
         <option value="$PROJECT_DIR$/data/data.csv" />
-        <option value="$PROJECT_DIR$/trainers/trainer2D.py" />
         <option value="$PROJECT_DIR$/models/conv2d.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/trainers/trainer2D.py" />
+        <option value="$PROJECT_DIR$/dataloaders/dataloader2D.py" />
+        <option value="$PROJECT_DIR$/dataloaders/transforms2D.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="x" value="1440" />
     <option name="y" value="35" />
     <option name="width" value="1920" />
@@ -203,6 +207,17 @@
             <path>
               <item name="HIP-PROJECT" type="b2602c69:ProjectViewProjectNode" />
               <item name="HIP-PROJECT" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="HIP-PROJECT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="HIP-PROJECT" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="HIP-PROJECT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="HIP-PROJECT" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+              <item name="predictions" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HIP-PROJECT" type="b2602c69:ProjectViewProjectNode" />
@@ -237,7 +252,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="web.server" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -353,7 +368,8 @@
       <workItem from="1584517846896" duration="13587000" />
       <workItem from="1584950557877" duration="7996000" />
       <workItem from="1584975443416" duration="3739000" />
-      <workItem from="1585035231631" duration="1053000" />
+      <workItem from="1585035231631" duration="6593000" />
+      <workItem from="1585138342392" duration="15684000" />
     </task>
     <task id="LOCAL-00001" summary="Model + Dataloader">
       <created>1584952439665</created>
@@ -362,37 +378,52 @@
       <option name="project" value="LOCAL" />
       <updated>1584952439665</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="2d Conv model - 1st version">
+      <created>1585036450556</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1585036450556</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35902000" />
+    <option name="totallyTimeSpent" value="57126000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1440" y="58" width="1920" height="1057" extended-state="6" />
-    <editor active="true" />
+    <frame x="1440" y="35" width="1478" height="1080" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19382322" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.26323318" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32953367" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.35049504" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32970297" />
       <window_info anchor="bottom" id="Docker" order="7" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32970297" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.319802" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.5019802" />
-      <window_info anchor="bottom" id="File Transfer" order="13" weight="0.32953367" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.4" />
+      <window_info anchor="bottom" id="File Transfer" order="13" weight="0.32871288" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Remote Host" order="3" visible="true" weight="0.171459" />
+      <window_info anchor="right" id="Remote Host" order="3" visible="true" weight="0.22423398" />
       <window_info anchor="right" id="SciView" order="4" weight="0.328541" />
       <window_info anchor="right" id="Database" order="5" weight="0.32960597" />
       <window_info anchor="right" x="0" y="0" width="430" height="880" id="Documentation" order="6" side_tool="true" weight="0.32960597" />
@@ -403,11 +434,12 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Model + Dataloader" />
-    <option name="LAST_COMMIT_MESSAGE" value="Model + Dataloader" />
+    <MESSAGE value="2d Conv model - 1st version" />
+    <option name="LAST_COMMIT_MESSAGE" value="2d Conv model - 1st version" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/HIP_PROJECT$dataloader2D.coverage" NAME="dataloader2D Coverage Results" MODIFIED="1584451400923" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dataloaders" />
-    <SUITE FILE_PATH="coverage/HIP_PROJECT$main.coverage" NAME="main Coverage Results" MODIFIED="1585036413202" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HIP_PROJECT$main.coverage" NAME="main Coverage Results" MODIFIED="1585319282232" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/utils/__init__.py">
@@ -553,26 +585,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dataloaders/transforms2D.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="72" column="55" selection-start-line="72" selection-start-column="55" selection-end-line="72" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/data.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="125" selection-start-line="11" selection-start-column="125" selection-end-line="11" selection-end-column="125" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/-1838850474/-440584852/torch/utils/data/dataloader.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
@@ -580,10 +592,71 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/-1838850474/-440584852/matplotlib/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="1598" selection-start-line="1598" selection-end-line="1598" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/-1838850474/-440584852/urllib3/connectionpool.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12378">
+          <caret line="993" selection-start-line="993" selection-end-line="993" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/-1838850474/-440584852/matplotlib/image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1409">
+          <caret line="689" selection-start-line="689" selection-end-line="689" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/artifacts/predictions/img.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/data.csv">
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="176" selection-start-line="1" selection-start-column="173" selection-end-line="1" selection-end-column="176" />
+        </state>
+      </provider>
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/-1838850474/-440584852/matplotlib/transforms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="62">
+          <caret line="2575" selection-start-line="2575" selection-end-line="2575" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/trainers/trainer2D.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="747">
+          <caret line="84" column="78" selection-start-line="84" selection-start-column="78" selection-end-line="84" selection-end-column="78" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dataloaders/dataloader2D.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="134" column="31" lean-forward="true" selection-start-line="134" selection-start-column="31" selection-end-line="134" selection-end-column="31" />
+        <state relative-caret-position="390">
+          <caret line="127" column="15" selection-start-line="127" selection-start-column="15" selection-end-line="127" selection-end-column="15" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
@@ -592,27 +665,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/conv2d.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="42" column="14" lean-forward="true" selection-start-line="42" selection-start-column="14" selection-end-line="42" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/trainers/trainer2D.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="24" column="74" selection-start-line="24" selection-start-column="72" selection-end-line="24" selection-end-column="74" />
+        <state relative-caret-position="698">
+          <caret line="53" selection-start-line="53" selection-end-line="53" />
           <folding>
-            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/dataloaders/transforms2D.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="38" column="59" lean-forward="true" selection-start-line="38" selection-start-column="59" selection-end-line="38" selection-end-column="59" />
+        <state relative-caret-position="536">
+          <caret line="128" column="41" lean-forward="true" selection-start-line="128" selection-start-column="41" selection-end-line="128" selection-end-column="41" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#18#33#0" expanded="true" />
           </folding>
         </state>
       </provider>

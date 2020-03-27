@@ -1,21 +1,58 @@
-import torch
-from torch.utils.data import SubsetRandomSampler
-from torchvision import datasets
-from torchvision import transforms
-import os
-import torch
-import pandas as pd
-from skimage import io, transform
-import numpy as np
-import matplotlib.pyplot as plt
-from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms, utils
 # Ignore warnings
 import warnings
 
-from utils.utils import fix_path
+# import cv2
+import numpy as np
+import torch
+from skimage import filters
+from skimage import transform
 
 warnings.filterwarnings("ignore")
+
+
+def thresholding_optimal(img):
+    return img > filters.threshold_li(img)
+
+
+def multi_threshholding(img):
+    thresholds = filters.threshold_multiotsu(img)
+    regions = np.digitize(img, bins=thresholds)
+    return regions
+
+
+def hysteresis_thrsholding(img):
+    edges = filters.sobel(img)
+
+    low = 0.1
+    high = 0.6
+
+    lowt = (edges > low).astype(int)
+    hight = (edges > high).astype(int)
+    hyst = filters.apply_hysteresis_threshold(edges, low, high)
+    return hight + hyst
+
+
+def low_thrsholding(img):
+    edges = filters.sobel(img)
+
+    low = 0.1
+    high = 0.6
+
+    lowt = (edges > low).astype(int)
+    return lowt
+
+
+def identity(image):
+    """Return the original image, ignoring any kwargs."""
+    return image
+
+
+fi = [filters.roberts, filters.sobel, filters.scharr,
+      filters.prewitt, filters.sobel_h, filters.farid_h,
+      filters.farid_v, filters.sobel_h, filters.sobel_v, filters.scharr_h,
+      filters.scharr_v, filters.prewitt_h, filters.prewitt_v, thresholding_optimal,
+      multi_threshholding,
+      identity, filters.sato, filters.hessian]
 
 
 class RandomCrop(object):
@@ -63,11 +100,40 @@ class ToTensor(object):
         # torch image: C X H X W
         # print('here2', landmarks.shape)
         landmarks[:, 0] = landmarks[:, 0] * 350 // H
-        landmarks[:, 2] = landmarks[:, 0] * 350 // W
+        landmarks[:, 2] = landmarks[:, 2] * 350 // W
         image = image.transpose((1, 0, 2))
         image_ = np.zeros((L, 350, 350))
         for i in range(L):
+            f = np.random.choice(fi, 1)[0]
+            # print(f)
+            image_[i] = f(transform.resize(image[i], (350, 350))) + np.random.normal(0, 0.1, (350, 350))
+            image_[i][image_[i] < 0] = 0.
+            image_[i][image_[i] > 1] = 1.
+        # print('here2', image_.shape)
+        return {'image': torch.from_numpy(image_),
+                'landmarks': torch.from_numpy(landmarks)}
+
+
+class ToTensorTest(object):
+    """Convert ndarrays in sample to Tensors."""
+
+    def __call__(self, sample):
+        image, landmarks = sample['image'], sample['landmarks']
+        H, L, W = image.shape
+        # print('here1', L, H, W)
+        # swap color axis because
+        # numpy image: H x W x C
+        # torch image: C X H X W
+        # print('here2', landmarks.shape)
+        landmarks[:, 0] = landmarks[:, 0] * 350 // H
+        landmarks[:, 2] = landmarks[:, 2] * 350 // W
+        image = image.transpose((1, 0, 2))
+        image_ = np.zeros((L, 350, 350))
+        for i in range(L):
+            # f = np.random.choice(fi, 1)[0]
+            # print(f)
             image_[i] = transform.resize(image[i], (350, 350))
+
         # print('here2', image_.shape)
         return {'image': torch.from_numpy(image_),
                 'landmarks': torch.from_numpy(landmarks)}

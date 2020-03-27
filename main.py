@@ -1,5 +1,6 @@
 import argparse
 import os
+from comet_ml import Experiment
 
 # from data_loader import get_loader
 from trainers.trainer2D import Trainer2D
