@@ -6,6 +6,9 @@ import numpy as np
 import torch
 from skimage import filters
 from skimage import transform
+import random
+from torchvision.utils import make_grid
+import torchvision.transforms as transforms
 
 warnings.filterwarnings("ignore")
 
@@ -40,6 +43,35 @@ def low_thrsholding(img):
 
     lowt = (edges > low).astype(int)
     return lowt
+
+
+def make_permutation(img, n_pieces=10):
+    img = img.reshape(1, img.shape[0], img.shape[1])
+    img = transforms.ToTensor()(img)
+    C, H, W = img.size()
+    h = H // n_pieces
+    c = W // n_pieces
+    # print(h,c)
+    pieces = []
+    for i in range(n_pieces):
+        for j in range(n_pieces):
+            x = i * h
+            y = j * c
+            # print(x,x+h)
+            # print(y,y+c)
+            pieces.append(img[..., x:x + h, y:y + c])
+    # print(len(pieces))
+    # print(pieces[0].size())
+    indexes = list(range(n_pieces * n_pieces))
+
+    # indexes = np.random.shuffle(indexes)
+
+    random.shuffle(indexes)
+    print(indexes)
+    result = []
+    for i in indexes:
+        result.append(pieces[i])
+    return make_grid(result, nrow=n_pieces, padding=0).reshape(H, W), indexes
 
 
 def identity(image):
@@ -86,6 +118,52 @@ class RandomCrop(object):
         landmarks = landmarks - [left, top]
 
         return {'image': image, 'landmarks': landmarks}
+
+
+class ToTensorJigsaw(object):
+    """Convert ndarrays in sample to Tensors."""
+
+    def __call__(self, sample):
+        image, indexes = sample['image'], sample['indexes']
+        H, L, W = image.shape
+        # print('here1', L, H, W)
+        # swap color axis because
+        # numpy image: H x W x C
+        # torch image: C X H X W
+        # print('here2', landmarks.shape)
+        image = image.transpose((1, 0, 2))
+        image_ = np.zeros((L, 350, 350))
+        indexes = np.zeros((L, 100))
+        for i in range(L):
+            f = np.random.choice(fi, 1)[0]
+            image_[i], indexes[i] = make_permutation(
+                f(transform.resize(image[i], (350, 350))) + np.random.normal(0, 0.1, (350, 350)))
+            image_[i][image_[i] < 0] = 0.
+            image_[i][image_[i] > 1] = 1.
+        return {'image': torch.from_numpy(image_),
+                'indexes': torch.from_numpy(indexes)}
+
+
+class ToTensorJigsawTest(object):
+    """Convert ndarrays in sample to Tensors."""
+
+    def __call__(self, sample):
+        image, indexes = sample['image'], sample['indexes']
+        H, L, W = image.shape
+        # print('here1', L, H, W)
+        # swap color axis because
+        # numpy image: H x W x C
+        # torch image: C X H X W
+        # print('here2', landmarks.shape)
+        image = image.transpose((1, 0, 2))
+        image_ = np.zeros((L, 350, 350))
+        indexes = np.zeros((L, 100))
+        for i in range(L):
+            image_[i], indexes[i] = make_permutation(transform.resize(image[i], (350, 350)))
+            image_[i][image_[i] < 0] = 0.
+            image_[i][image_[i] > 1] = 1.
+        return {'image': torch.from_numpy(image_),
+                'indexes': torch.from_numpy(indexes)}
 
 
 class ToTensor(object):

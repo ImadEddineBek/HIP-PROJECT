@@ -116,6 +116,41 @@ class HipLandmarksDataset(Dataset):
         return sample['image'], sample['landmarks']
 
 
+class HipJigsaw(Dataset):
+    """Face Landmarks dataset."""
+
+    def __init__(self, csv_file, root_dir, transform=None):
+        """
+        Args:
+             csv_file (string): Path to the csv file with annotations.
+            root_dir (string): Directory with all the images.
+            transform (callable, optional): Optional transform to be applied
+                on a sample.
+        """
+        self.landmarks_frame = pd.read_csv(csv_file)
+        self.root_dir = root_dir
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.landmarks_frame)
+
+    def __getitem__(self, idx):
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
+
+        img_name = os.path.join(self.root_dir,
+                                self.landmarks_frame['images'][idx])
+        # y = self.landmarks_frame['right_head_y'][idx]
+        image = np.array(np.load(img_name), dtype=np.float32)
+        image = image / image.max()
+
+        sample = {'image': image, 'indexes': None}
+        if self.transform:
+            sample = self.transform(sample)
+
+        return sample['image'], sample['indexes']
+
+
 def get_dataloader2D(config):
     transform_train = transforms.Compose([
         # transforms.ToPILImage(),
@@ -131,6 +166,29 @@ def get_dataloader2D(config):
 
     dataset_train = HipLandmarksDataset(config.data_csv_train, config.data_root, transform_train)
     dataset_test = HipLandmarksDataset(config.data_csv_test, config.data_root, transform_test)
+    train_loader = DataLoader(dataset=dataset_train, batch_size=config.batch_size, shuffle=False,
+                              num_workers=config.num_workers)
+
+    test_loader = DataLoader(dataset=dataset_test, batch_size=config.batch_size, shuffle=False,
+                             num_workers=config.num_workers)
+    return train_loader, test_loader
+
+
+def get_dataloader2DJigSaw(config):
+    transform_train = transforms.Compose([
+        # transforms.ToPILImage(),
+        # transforms.Resize(config.image_size),
+        ToTensorJigsaw(),
+        # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    ])
+    transform_test = transforms.Compose([
+        # transforms.Resize(config.image_size),
+        ToTensorJigsawTest(),
+        # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    ])
+
+    dataset_train = HipJigsaw(config.data_csv_train, config.data_root, transform_train)
+    dataset_test = HipJigsaw(config.data_csv_test, config.data_root, transform_test)
     train_loader = DataLoader(dataset=dataset_train, batch_size=config.batch_size, shuffle=False,
                               num_workers=config.num_workers)
 

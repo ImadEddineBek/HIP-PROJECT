@@ -13,7 +13,7 @@ from termcolor import colored
 from torch import optim
 from torch.autograd import Variable
 import torch.nn.functional as F
-from dataloaders.dataloader2D import get_dataloader2D
+from dataloaders.dataloader2D import get_dataloader2D, get_dataloader2DJigSaw
 from models import conv2d
 
 
@@ -24,6 +24,7 @@ class Trainer2D:
         self.model = conv2d.Conv2DPatches()
         print(self.model)
         self.train_loader, self.test_loader = get_dataloader2D(config)
+        self.train_loader_jig, self.test_loader_jig = get_dataloader2DJigSaw(config)
         self.net_optimizer = optim.Adam(self.model.parameters(), config.lr, [0.5, 0.9999])
         if torch.cuda.is_available():
             self.model.cuda()
@@ -33,6 +34,28 @@ class Trainer2D:
         if torch.cuda.is_available():
             self.model = self.model.cuda()
             self.model = self.model.cuda()
+
+    def pre_train(self):
+        for epoch in range(self.epochs):
+            print("Starting epoch {}".format(epoch))
+            train_loader = iter(self.train_loader_jig)
+            with self.experiment.train():
+                for i in range(len(train_loader)):
+                    self.net_optimizer.zero_grad()
+                    data, indexes = train_loader.next()
+                    # print(landmarks)
+                    # print(landmarks.shape)
+                    data, indexes = self.to_var(data), self.to_var(indexes)
+                    B, L, H, W = data.size()
+                    B, L, S = indexes.size()
+
+                    jig_out, _ = self.model(data)
+                    loss = self.criterion_c(jig_out, indexes)
+                    loss.backward()
+                    self.net_optimizer.step()
+                    # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
+                    self.experiment.log_metric('pre-loss', loss.item())
+                    print('loss: {}'.format(loss.item()))
 
     def train(self):
         for epoch in range(self.epochs):

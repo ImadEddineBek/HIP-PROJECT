@@ -20,6 +20,7 @@ def main(config):
     #     os.makedirs(config.model_path)
     '''if not os.path.exists(config.sample_path):
         os.makedirs(config.sample_path)'''
+    solver.pre_train()
     solver.train()
 
 
@@ -38,7 +39,7 @@ if __name__ == '__main__':
     # training hyper-parameters
     parser.add_argument('--epochs', type=int, default=1000)
     parser.add_argument('--batch_size', type=int, default=1)
-    parser.add_argument('--num_workers', type=int, default=2)
+    parser.add_argument('--num_workers', type=int, default=20)
     parser.add_argument('--lr', type=float, default=0.03)
     parser.add_argument('--lr_c', type=float, default=0.003)
 
