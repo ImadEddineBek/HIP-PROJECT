@@ -25,6 +25,7 @@ class Evaluator:
 
     def l1_loss(self, ):
         test_loader = iter(self.loader)
+        losses = None
         with self.experiment.test():
             loss = 0
             for i in range(len(test_loader)):
@@ -38,15 +39,17 @@ class Evaluator:
                 for i in range(B):
                     y_slices[i] = data[i, y[i]]
 
-                jig_out, detected_points = self.model(y_slices)
-                landmarks = landmarks.float() / 350.
-                loss += self.criterion_d(detected_points, landmarks[:, :, [0, 2]]).item()
-                self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
-            self.experiment.log_metric('loss', loss / len(test_loader))
-        pass
+                jig_out, detected_points = self.trainer.predict(y_slices)
+                landmarks = landmarks.float()
+                l1_loss = np.abs((landmarks[:, :, [0, 2]] - detected_points * 350).detach().cpu().numpy())
+                if losses is None:
+                    losses = l1_loss
+                else:
+                    losses = np.concatenate((losses, l1_loss))
 
     def l2_loss(self, ):
         test_loader = iter(self.loader)
+        losses = None
         with self.experiment.test():
             loss = 0
             for i in range(len(test_loader)):
@@ -60,9 +63,13 @@ class Evaluator:
                 for i in range(B):
                     y_slices[i] = data[i, y[i]]
 
-                jig_out, detected_points = self.model(y_slices)
-                landmarks = landmarks.float() / 350.
-                loss += self.criterion_d(detected_points, landmarks[:, :, [0, 2]]).item()
-                self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
-            self.experiment.log_metric('loss', loss / len(test_loader))
+                jig_out, detected_points = self.trainer.predict(y_slices)
+                landmarks = landmarks.float()
+                l2_loss = np.abs(((landmarks[:, :, [0, 2]] - detected_points * 350) ** 2).detach().cpu().numpy())
+                if losses is None:
+                    losses = l2_loss
+                else:
+                    losses = np.concatenate((losses, l2_loss))
+
+    def report(self,):
         pass
