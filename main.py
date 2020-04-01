@@ -37,10 +37,10 @@ if __name__ == '__main__':
     # parser.add_argument('--beta_p', type=float, default=4)
 
     # training hyper-parameters
-    parser.add_argument('--epochs', type=int, default=1000)
+    parser.add_argument('--epochs', type=int, default=200)
     parser.add_argument('--batch_size', type=int, default=1)
-    parser.add_argument('--num_workers', type=int, default=20)
-    parser.add_argument('--lr', type=float, default=0.03)
+    parser.add_argument('--num_workers', type=int, default=60)
+    parser.add_argument('--lr', type=float, default=0.003)
     parser.add_argument('--lr_c', type=float, default=0.003)
 
     # misc

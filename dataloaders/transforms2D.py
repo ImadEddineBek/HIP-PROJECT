@@ -46,9 +46,10 @@ def low_thrsholding(img):
 
 
 def make_permutation(img, n_pieces=10):
-    img = img.reshape(1, img.shape[0], img.shape[1])
+    img = img.reshape(img.shape[0], img.shape[1], 1)
     img = transforms.ToTensor()(img)
     C, H, W = img.size()
+    # print(C, H, W)
     h = H // n_pieces
     c = W // n_pieces
     # print(h,c)
@@ -57,8 +58,8 @@ def make_permutation(img, n_pieces=10):
         for j in range(n_pieces):
             x = i * h
             y = j * c
-            # print(x,x+h)
-            # print(y,y+c)
+            # print(x, x + h)
+            # print(y, y + c)
             pieces.append(img[..., x:x + h, y:y + c])
     # print(len(pieces))
     # print(pieces[0].size())
@@ -67,11 +68,12 @@ def make_permutation(img, n_pieces=10):
     # indexes = np.random.shuffle(indexes)
 
     random.shuffle(indexes)
-    print(indexes)
+    # print(indexes)
     result = []
     for i in indexes:
+        # print(pieces[i].size())
         result.append(pieces[i])
-    return make_grid(result, nrow=n_pieces, padding=0).reshape(H, W), indexes
+    return make_grid(result, nrow=n_pieces, padding=0).numpy().reshape(3, H, W)[0], indexes
 
 
 def identity(image):
@@ -141,7 +143,7 @@ class ToTensorJigsaw(object):
             image_[i][image_[i] < 0] = 0.
             image_[i][image_[i] > 1] = 1.
         return {'image': torch.from_numpy(image_),
-                'indexes': torch.from_numpy(indexes)}
+                'indexes': torch.from_numpy(indexes / 100)}
 
 
 class ToTensorJigsawTest(object):
@@ -163,7 +165,7 @@ class ToTensorJigsawTest(object):
             image_[i][image_[i] < 0] = 0.
             image_[i][image_[i] > 1] = 1.
         return {'image': torch.from_numpy(image_),
-                'indexes': torch.from_numpy(indexes)}
+                'indexes': torch.from_numpy(indexes / 100)}
 
 
 class ToTensor(object):

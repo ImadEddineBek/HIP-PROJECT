@@ -6,9 +6,9 @@ from IPython.core.debugger import set_trace
 from torch import nn as nn
 
 
-class Conv2DPatches(nn.Module):
+class ConvClassifier(nn.Module):
     def __init__(self, jigsaw_classes=100, n_classes=16, dropout=True):
-        super(Conv2DPatches, self).__init__()
+        super(ConvClassifier, self).__init__()
         print("Using 2D Convolutional Patched model")
         self.features = nn.Sequential(OrderedDict([
             ("conv1", nn.Conv2d(1, 16, kernel_size=11, stride=3)),
@@ -23,17 +23,9 @@ class Conv2DPatches(nn.Module):
             ("relu3", nn.ReLU(inplace=True)),
         ]))
         self.fc_size = 144
-        # self.y_classifier = nn.Sequential(OrderedDict([
-        #     ("fc6", nn.Linear(256 * 6 * 6, self.fc_size)),
-        #     ("relu6", nn.ReLU(inplace=True)),
-        #     ("drop6", nn.Dropout()),
-        #     ("fc7", nn.Linear(4096, 4096)),
-        #     ("relu7", nn.ReLU(inplace=True)),
-        #     ("drop7", nn.Dropout())
-        # ]))
 
         self.jigsaw_classifier = nn.Sequential(
-            nn.Linear(self.fc_size, jigsaw_classes),
+            nn.Linear(self.fc_size, 1),
         )
 
         self.point_detectors = []

@@ -36,6 +36,7 @@ class Trainer2D:
             self.model = self.model.cuda()
 
     def pre_train(self):
+        print("Starting pre-training and solving the jigsaw puzzle")
         for epoch in range(self.epochs):
             print("Starting epoch {}".format(epoch))
             train_loader = iter(self.train_loader_jig)
@@ -45,12 +46,12 @@ class Trainer2D:
                     data, indexes = train_loader.next()
                     # print(landmarks)
                     # print(landmarks.shape)
-                    data, indexes = self.to_var(data), self.to_var(indexes)
+                    data, indexes = self.to_var(data), self.to_var(indexes).float()
                     B, L, H, W = data.size()
                     B, L, S = indexes.size()
 
-                    jig_out, _ = self.model(data)
-                    loss = self.criterion_c(jig_out, indexes)
+                    jig_out, _ = self.model(data, True)
+                    loss = self.criterion_d(jig_out, indexes.view(-1, S))
                     loss.backward()
                     self.net_optimizer.step()
                     # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
@@ -58,6 +59,7 @@ class Trainer2D:
                     print('loss: {}'.format(loss.item()))
 
     def train(self):
+        print("Starting training")
         for epoch in range(self.epochs):
             print("Starting epoch {}".format(epoch))
             train_loader = iter(self.train_loader)
@@ -141,3 +143,6 @@ class Trainer2D:
         if torch.cuda.is_available():
             x = x.cpu()
         return x.data.numpy()
+
+    def predict(self, ):
+        pass
