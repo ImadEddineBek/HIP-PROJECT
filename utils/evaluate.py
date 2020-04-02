@@ -26,50 +26,62 @@ class Evaluator:
     def l1_loss(self, ):
         test_loader = iter(self.loader)
         losses = None
-        with self.experiment.test():
-            loss = 0
-            for i in range(len(test_loader)):
-                self.net_optimizer.zero_grad()
-                data, landmarks = test_loader.next()
-                data, landmarks = self.to_var(data), self.to_var(landmarks)
-                B, L, H, W = data.size()
-                B, L, S = landmarks.size()
-                y = landmarks[:, :, 1].view(B, L)
-                y_slices = torch.zeros([B, L, H, W], dtype=torch.float32)
-                for i in range(B):
-                    y_slices[i] = data[i, y[i]]
+        loss = 0
+        for i in range(len(test_loader)):
+            data, landmarks = test_loader.next()
+            data, landmarks = self.trainer.to_var(data), self.trainer.to_var(landmarks)
+            B, L, H, W = data.size()
+            B, L, S = landmarks.size()
+            y = landmarks[:, :, 1].view(B, L)
+            y_slices = torch.zeros([B, L, H, W], dtype=torch.float32)
+            for i in range(B):
+                y_slices[i] = data[i, y[i]]
 
-                jig_out, detected_points = self.trainer.predict(y_slices)
-                landmarks = landmarks.float()
-                l1_loss = np.abs((landmarks[:, :, [0, 2]] - detected_points * 350).detach().cpu().numpy())
-                if losses is None:
-                    losses = l1_loss
-                else:
-                    losses = np.concatenate((losses, l1_loss))
+            detected_points = self.trainer.predict(y_slices)
+            landmarks = landmarks.float()
+            l1_loss = np.abs((landmarks[:, :, [0, 2]] - detected_points * 350).detach().cpu().numpy())
+            if losses is None:
+                losses = l1_loss
+            else:
+                losses = np.concatenate((losses, l1_loss))
+
+        return losses
 
     def l2_loss(self, ):
         test_loader = iter(self.loader)
         losses = None
-        with self.experiment.test():
-            loss = 0
-            for i in range(len(test_loader)):
-                self.net_optimizer.zero_grad()
-                data, landmarks = test_loader.next()
-                data, landmarks = self.to_var(data), self.to_var(landmarks)
-                B, L, H, W = data.size()
-                B, L, S = landmarks.size()
-                y = landmarks[:, :, 1].view(B, L)
-                y_slices = torch.zeros([B, L, H, W], dtype=torch.float32)
-                for i in range(B):
-                    y_slices[i] = data[i, y[i]]
+        loss = 0
+        for i in range(len(test_loader)):
+            data, landmarks = test_loader.next()
+            data, landmarks = self.trainer.to_var(data), self.trainer.to_var(landmarks)
+            B, L, H, W = data.size()
+            B, L, S = landmarks.size()
+            y = landmarks[:, :, 1].view(B, L)
+            y_slices = torch.zeros([B, L, H, W], dtype=torch.float32)
+            for i in range(B):
+                y_slices[i] = data[i, y[i]]
 
-                jig_out, detected_points = self.trainer.predict(y_slices)
-                landmarks = landmarks.float()
-                l2_loss = np.abs(((landmarks[:, :, [0, 2]] - detected_points * 350) ** 2).detach().cpu().numpy())
-                if losses is None:
-                    losses = l2_loss
-                else:
-                    losses = np.concatenate((losses, l2_loss))
+            detected_points = self.trainer.predict(y_slices)
+            landmarks = landmarks.float()
+            l2_loss = np.abs(((landmarks[:, :, [0, 2]] - detected_points * 350) ** 2).detach().cpu().numpy())
+            if losses is None:
+                losses = l2_loss
+            else:
+                losses = np.concatenate((losses, l2_loss))
+        return losses
 
-    def report(self,):
-        pass
+    def report(self, ):
+        l1 = self.l1_loss()
+        l2 = self.l2_loss()
+
+        def process_loss(losses):
+            means = np.mean(losses, axis=2)
+            stds = np.std(means, axis=0)
+            mins = np.min(means, axis=0)
+            maxs = np.max(means, axis=0)
+            means = np.means(means, axis=0)
+
+            return means, stds, mins, maxs
+
+        l1_means, l1_stds, l1_mins, l1_maxs = process_loss(l1)
+        l2_means, l2_stds, l2_mins, l2_maxs = process_loss(l2)

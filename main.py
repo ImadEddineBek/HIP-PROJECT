@@ -3,9 +3,11 @@ import os
 from comet_ml import Experiment
 
 # from data_loader import get_loader
+from dataloaders.dataloader2D import get_dataloader2D
 from trainers.trainer2D import Trainer2D
 from torch.backends import cudnn
 
+from utils.evaluate import Evaluator
 from utils.utils import fix_path
 
 
@@ -23,6 +25,10 @@ def main(config):
     solver.pre_train()
     solver.train()
 
+    test, train = get_dataloader2D(config)
+    evaluator = Evaluator(solver, test)
+    print(evaluator.l1_loss())
+
 
 if __name__ == '__main__':
     fix_path()
@@ -37,7 +43,7 @@ if __name__ == '__main__':
     # parser.add_argument('--beta_p', type=float, default=4)
 
     # training hyper-parameters
-    parser.add_argument('--epochs', type=int, default=200)
+    parser.add_argument('--epochs', type=int, default=1)
     parser.add_argument('--batch_size', type=int, default=1)
     parser.add_argument('--num_workers', type=int, default=60)
     parser.add_argument('--lr', type=float, default=0.003)

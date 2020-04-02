@@ -23,8 +23,7 @@ class Trainer2D:
         self.config = config
         self.model = conv2d.Conv2DPatches()
         print(self.model)
-        self.d = get_dataloader2D(config)
-        self.train_loader, self.test_loader = self.d
+        self.train_loader, self.test_loader = get_dataloader2D(config)
         self.train_loader_jig, self.test_loader_jig = get_dataloader2DJigSaw(config)
         self.net_optimizer = optim.Adam(self.model.parameters(), config.lr, [0.5, 0.9999])
         # if torch.cuda.is_available():
@@ -145,6 +144,5 @@ class Trainer2D:
         #     x = x.cpu()
         return x.data.numpy()
 
-    def predict(self, x):
-        _, x = self.model(x)
-        return x
+    def predict(self, ):
+        pass

@@ -43,14 +43,14 @@ class HipLandmarksDataset(Dataset):
                                 'left_vertical_1',
                                 'left_vertical_2',
 
-                                'left_edge',
-                                'left_head',
-                                'left_neck_1',
-                                'left_neck_2',
-                                'left_shaft_1',
-                                'left_shaft_2',
-                                'left_vertical_1',
-                                'left_vertical_2']
+                                'right_edge',
+                                'right_head',
+                                'right_neck_1',
+                                'right_neck_2',
+                                'right_shaft_1',
+                                'right_shaft_2',
+                                'right_vertical_1',
+                                'right_vertical_2']
         self.landmark_to_idx = {self.landmark_to_idx[i]: i for i in range(len(self.landmark_to_idx))}
         self.idx_to_landmark = {v: k for k, v in self.landmark_to_idx.items()}
 
