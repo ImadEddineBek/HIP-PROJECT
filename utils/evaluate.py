@@ -79,9 +79,18 @@ class Evaluator:
             stds = np.std(means, axis=0)
             mins = np.min(means, axis=0)
             maxs = np.max(means, axis=0)
-            means = np.means(means, axis=0)
+            means = np.mean(means, axis=0)
 
             return means, stds, mins, maxs
 
         l1_means, l1_stds, l1_mins, l1_maxs = process_loss(l1)
         l2_means, l2_stds, l2_mins, l2_maxs = process_loss(l2)
+        print('\t\t means, stds, mins, maxes')
+        for i in range(len(l1_means)):
+            print('%s: %.2f, %.2f, %.2f, %.2f' % (
+                self.loader.dataset.idx_to_landmark[i], l1_means[i], l1_stds[i], l1_mins[i], l1_maxs[i]))
+
+        for i in range(len(l2_means)):
+            print('%s: %.2f, %.2f, %.2f, %.2f' % (
+                self.loader.dataset.idx_to_landmark[i], l2_means[i], l2_stds[i], l2_mins[i], l2_maxs[i]))
+        # print(self.loader.idx_to_landmark)

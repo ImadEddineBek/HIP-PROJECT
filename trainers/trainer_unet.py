@@ -26,13 +26,13 @@ class Trainer2D:
         self.train_loader, self.test_loader = get_dataloader2D(config)
         self.train_loader_jig, self.test_loader_jig = get_dataloader2DJigSaw(config)
         self.net_optimizer = optim.Adam(self.model.parameters(), config.lr, [0.5, 0.9999])
-        # if torch.cuda.is_available():
-        #     self.model.cuda()
+        if torch.cuda.is_available():
+            self.model.cuda()
         self.criterion_c = nn.CrossEntropyLoss()
         self.criterion_d = nn.MSELoss()
         self.epochs = config.epochs
-        # if torch.cuda.is_available():
-        #     self.model = self.model.cuda()
+        if torch.cuda.is_available():
+            self.model = self.model.cuda()
         #     self.model = self.model.cuda()
 
     def pre_train(self):
@@ -134,14 +134,14 @@ class Trainer2D:
 
     def to_var(self, x):
         """Converts numpy to variable."""
-        # if torch.cuda.is_available():
-        #     x = x.cuda()
+        if torch.cuda.is_available():
+            x = x.cuda()
         return Variable(x, requires_grad=False)
 
     def to_data(self, x):
         """Converts variable to numpy."""
-        # if torch.cuda.is_available():
-        #     x = x.cpu()
+        if torch.cuda.is_available():
+            x = x.cpu()
         return x.data.numpy()
 
     def predict(self, ):

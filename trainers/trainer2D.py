@@ -15,6 +15,7 @@ from torch.autograd import Variable
 import torch.nn.functional as F
 from dataloaders.dataloader2D import get_dataloader2D, get_dataloader2DJigSaw
 from models import conv2d
+from utils.evaluate import Evaluator
 
 
 class Trainer2D:
@@ -27,68 +28,84 @@ class Trainer2D:
         self.train_loader, self.test_loader = self.d
         self.train_loader_jig, self.test_loader_jig = get_dataloader2DJigSaw(config)
         self.net_optimizer = optim.Adam(self.model.parameters(), config.lr, [0.5, 0.9999])
-        # if torch.cuda.is_available():
-        #     self.model.cuda()
+        if torch.cuda.is_available():
+            self.model.cuda()
         self.criterion_c = nn.CrossEntropyLoss()
         self.criterion_d = nn.MSELoss()
         self.epochs = config.epochs
-        # if torch.cuda.is_available():
+        if torch.cuda.is_available():
+            print('Using CUDA')
+            self.model = self.model.cuda()
         #     self.model = self.model.cuda()
-        #     self.model = self.model.cuda()
+        self.pre_model_path = './artifacts/pre_models/' + str(config.lr) + '.pth'
+        self.model_path = './artifacts/models/' + str(config.lr) + '.pth'
 
     def pre_train(self):
-        print("Starting pre-training and solving the jigsaw puzzle")
-        for epoch in range(self.epochs):
-            print("Starting epoch {}".format(epoch))
-            train_loader = iter(self.train_loader_jig)
-            with self.experiment.train():
-                for i in range(len(train_loader)):
-                    self.net_optimizer.zero_grad()
-                    data, indexes = train_loader.next()
-                    # print(landmarks)
-                    # print(landmarks.shape)
-                    data, indexes = self.to_var(data), self.to_var(indexes).float()
-                    B, L, H, W = data.size()
-                    B, L, S = indexes.size()
 
-                    jig_out, _ = self.model(data, True)
-                    loss = self.criterion_d(jig_out, indexes.view(-1, S))
-                    loss.backward()
-                    self.net_optimizer.step()
-                    # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
-                    self.experiment.log_metric('pre-loss', loss.item())
-                    print('loss: {}'.format(loss.item()))
+        if os.path.isfile(self.pre_model_path):
+            print("Using pre-trained model for solving the jigsaw puzzle")
+            self.model = torch.load(self.pre_model_path)
+        else:
+            print("Starting pre-training and solving the jigsaw puzzle")
+            for epoch in range(self.epochs):
+                print("Starting epoch {}".format(epoch))
+                train_loader = iter(self.train_loader_jig)
+                with self.experiment.train():
+                    for i in range(len(train_loader)):
+                        self.net_optimizer.zero_grad()
+                        data, indexes = train_loader.next()
+                        # print(landmarks)
+                        # print(landmarks.shape)
+                        data, indexes = self.to_var(data), self.to_var(indexes).float()
+                        B, L, H, W = data.size()
+                        B, L, S = indexes.size()
+
+                        jig_out, _ = self.model(data, True)
+                        loss = self.criterion_d(jig_out, indexes.view(-1, S))
+                        loss.backward()
+                        self.net_optimizer.step()
+                        # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
+                        self.experiment.log_metric('pre-loss', loss.item())
+                        print('loss: {}'.format(loss.item()))
+
+            torch.save(self.model, self.pre_model_path)
 
     def train(self):
-        print("Starting training")
-        for epoch in range(self.epochs):
-            print("Starting epoch {}".format(epoch))
-            train_loader = iter(self.train_loader)
-            with self.experiment.train():
-                for i in range(len(train_loader)):
-                    self.net_optimizer.zero_grad()
-                    data, landmarks = train_loader.next()
-                    # print(landmarks)
-                    # print(landmarks.shape)
-                    data, landmarks = self.to_var(data), self.to_var(landmarks)
-                    B, L, H, W = data.size()
-                    B, L, S = landmarks.size()
-                    y = landmarks[:, :, 1].view(B, L)
-                    y_slices = torch.zeros([B, L, H, W], dtype=torch.float32)
-                    for i in range(B):
-                        y_slices[i] = data[i, y[i]]
+        if os.path.isfile(self.model_path):
+            print("Using pre-trained model")
+            self.model = torch.load(self.model_path)
+        else:
+            print("Starting training")
+            for epoch in range(self.epochs):
+                print("Starting epoch {}".format(epoch))
+                train_loader = iter(self.train_loader)
+                with self.experiment.train():
+                    for i in range(len(train_loader)):
+                        self.net_optimizer.zero_grad()
+                        data, landmarks = train_loader.next()
+                        # print(landmarks)
+                        # print(landmarks.shape)
+                        data, landmarks = self.to_var(data), self.to_var(landmarks)
+                        B, L, H, W = data.size()
+                        B, L, S = landmarks.size()
+                        y = landmarks[:, :, 1].view(B, L)
+                        y_slices = torch.zeros([B, L, H, W], dtype=torch.float32)
+                        for i in range(B):
+                            y_slices[i] = data[i, y[i]]
 
-                    jig_out, detected_points = self.model(y_slices)
-                    landmarks = landmarks.float() / 350.
-                    loss = self.criterion_d(detected_points, landmarks[:, :, [0, 2]])
-                    loss.backward()
-                    self.net_optimizer.step()
-                    # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
-                    self.experiment.log_metric('loss', loss.item())
-                    print('loss: {}'.format(loss.item()))
-            with self.experiment.test():
-                self.evaluate()
-        self.experiment.end()
+                        jig_out, detected_points = self.model(y_slices.cuda())
+                        landmarks = landmarks.float() / 350.
+                        loss = self.criterion_d(detected_points, landmarks[:, :, [0, 2]].cuda())
+                        loss.backward()
+                        self.net_optimizer.step()
+                        # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
+                        self.experiment.log_metric('loss', loss.item())
+                        print('loss: {}'.format(loss.item()))
+                with self.experiment.test():
+                    self.evaluate()
+            torch.save(self.model, self.model_path)
+        evaluator = Evaluator(self, self.test_loader)
+        evaluator.report()
 
     def evaluate(self):
         test_loader = iter(self.test_loader)
@@ -135,14 +152,14 @@ class Trainer2D:
 
     def to_var(self, x):
         """Converts numpy to variable."""
-        # if torch.cuda.is_available():
-        #     x = x.cuda()
+        if torch.cuda.is_available():
+            x = x.cuda()
         return Variable(x, requires_grad=False)
 
     def to_data(self, x):
         """Converts variable to numpy."""
-        # if torch.cuda.is_available():
-        #     x = x.cpu()
+        if torch.cuda.is_available():
+            x = x.cpu()
         return x.data.numpy()
 
     def predict(self, x):
