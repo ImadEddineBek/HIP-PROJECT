@@ -21,6 +21,7 @@ from utils.evaluate import Evaluator
 class Trainer2D:
     def __init__(self, config):
         self.experiment = Experiment(api_key='CQ4yEzhJorcxul2hHE5gxVNGu', project_name='HIP')
+        self.experiment.log_parameters(config)
         self.config = config
         self.log_step = config.log_step
         self.model = conv2d.Conv2DPatches()
@@ -78,6 +79,8 @@ class Trainer2D:
             self.model = torch.load(self.model_path)
         else:
             print("Starting training")
+            if torch.cuda.is_available():
+                self.model = self.model.cuda()
             for epoch in range(self.epochs):
                 print("Starting epoch {}".format(epoch))
                 train_loader = iter(self.train_loader)
@@ -92,6 +95,8 @@ class Trainer2D:
                         B, L, S = landmarks.size()
                         y = landmarks[:, :, 1].view(B, L)
                         y_slices = torch.zeros([B, L, H, W], dtype=torch.float32)
+                        if torch.cuda.is_available():
+                            y_slices = y_slices.cuda()
                         for i in range(B):
                             y_slices[i] = data[i, y[i]]
 
@@ -124,13 +129,16 @@ class Trainer2D:
                 B, L, S = landmarks.size()
                 y = landmarks[:, :, 1].view(B, L)
                 y_slices = torch.zeros([B, L, H, W], dtype=torch.float32)
+                if torch.cuda.is_available():
+                    y_slices = y_slices.cuda()
+
                 for i in range(B):
                     y_slices[i] = data[i, y[i]]
 
                 jig_out, detected_points = self.model(y_slices)
                 landmarks = landmarks.float() / self.image_size
                 loss += self.criterion_d(detected_points, landmarks[:, :, [0, 2]]).item()
-                self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
+                self.plots(y_slices.cpu(), landmarks[:, :, [0, 2]], detected_points)
             self.experiment.log_metric('loss', loss / len(test_loader))
 
     def plots(self, slices, real, predicted):
@@ -168,5 +176,8 @@ class Trainer2D:
         return x.data.numpy()
 
     def predict(self, x):
+        if torch.cuda.is_available():
+            self.model = self.model.cuda()
+            x = x.cuda()
         _, x = self.model(x)
         return x

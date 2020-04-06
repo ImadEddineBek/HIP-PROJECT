@@ -250,8 +250,12 @@ class ToTensorClassifier(object):
         landmarks[:, 0] = landmarks[:, 0] * self.image_size // H
         landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
         landmarks += np.random.randint(-5, 5, size=landmarks.shape)
-        classes = np.array(list(range(len(landmarks) + 1)))
-        images = np.zeros(shape=(len(landmarks) + 1, 20, 20))
+        landmarks = list(landmarks)
+        landmarks.append([random.randint(10, self.image_size - 10), random.randint(0, L),
+                          random.randint(10, self.image_size - 10)])
+        landmarks = np.array(landmarks)
+        classes = np.array(list(range(len(landmarks))))
+        images = np.zeros(shape=(len(landmarks), 20, 20))
         image = image.transpose((1, 0, 2))
         for i in range(len(classes)):
             f = np.random.choice(fi, 1)[0]
@@ -259,7 +263,27 @@ class ToTensorClassifier(object):
                 self.image_size, self.image_size))
             landmark = landmarks[i]
             x, y, z = landmark[0], landmark[1], landmark[2]
+            if z < 10:
+                z = 10
+            if z > self.image_size - 10:
+                z = self.image_size - 10
+
+            if x < 10:
+                x = 10
+            if x > self.image_size - 10:
+                x = self.image_size - 10
+
+            if y < 1:
+                y = 1
+            if y >= L:
+                y = L - 1
+
+            if z < 10 or z > self.image_size - 10:
+                print(i, x, y, z)
+            if x < 10 or x > self.image_size - 10:
+                print(i, x, y, z)
             iii = image[y, x - 10:x + 10, z - 10:z + 10]
+
             images[i] = f(iii)
 
             # image_ = np.zeros((L, self.image_size, self.image_size))
@@ -273,7 +297,7 @@ class ToTensorClassifier(object):
 
             # print('here2', image_.shape)
         return {'image': torch.from_numpy(images),
-                'classes': torch.from_numpy(classes)}
+                'landmarks': torch.from_numpy(classes)}
 
 
 class ToTensorTestClassifier(object):
@@ -292,17 +316,41 @@ class ToTensorTestClassifier(object):
         # print('here2', landmarks.shape)
         landmarks[:, 0] = landmarks[:, 0] * self.image_size // H
         landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
-        landmarks += np.random.randint(-5, 5, size=landmarks.shape)
-        classes = np.array(list(range(len(landmarks) + 1)))
-        images = np.zeros(shape=(len(landmarks) + 1, 20, 20))
+        # landmarks += np.random.randint(-5, 5, size=landmarks.shape)
+        landmarks = list(landmarks)
+        landmarks.append([random.randint(10, self.image_size - 10), random.randint(0, L),
+                          random.randint(10, self.image_size - 10)])
+        landmarks = np.array(landmarks)
+        classes = np.array(list(range(len(landmarks))))
+        images = np.zeros(shape=(len(landmarks), 20, 20))
         image = image.transpose((1, 0, 2))
         for i in range(len(classes)):
-            # f = np.random.choice(fi, 1)[0]
+            f = np.random.choice(fi, 1)[0]
             ii = transform.resize(image[i], (self.image_size, self.image_size)) + np.random.normal(0, 0.1, (
                 self.image_size, self.image_size))
             landmark = landmarks[i]
             x, y, z = landmark[0], landmark[1], landmark[2]
+            if z < 10:
+                z = 10
+            if z > self.image_size - 10:
+                z = self.image_size - 10
+
+            if x < 10:
+                x = 10
+            if x > self.image_size - 10:
+                x = self.image_size - 10
+
+            if y < 1:
+                y = 1
+            if y >= L:
+                y = L - 1
+
+            if z < 10 or z > self.image_size - 10:
+                print(i, x, y, z)
+            if x < 10 or x > self.image_size - 10:
+                print(i, x, y, z)
             iii = image[y, x - 10:x + 10, z - 10:z + 10]
+
             images[i] = iii
 
             # image_ = np.zeros((L, self.image_size, self.image_size))
@@ -316,7 +364,7 @@ class ToTensorTestClassifier(object):
 
             # print('here2', image_.shape)
         return {'image': torch.from_numpy(images),
-                'classes': torch.from_numpy(classes)}
+                'landmarks': torch.from_numpy(classes)}
 
 
 class Rescale(object):

@@ -174,6 +174,29 @@ def get_dataloader2D(config):
     return train_loader, test_loader
 
 
+def get_dataloader2DClassifier(config):
+    transform_train = transforms.Compose([
+        # transforms.ToPILImage(),
+        # transforms.Resize(config.image_size),
+        ToTensorClassifier(config.image_size),
+        # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    ])
+    transform_test = transforms.Compose([
+        # transforms.Resize(config.image_size),
+        ToTensorTestClassifier(),
+        # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    ])
+
+    dataset_train = HipLandmarksDataset(config.data_csv_train, config.data_root, transform_train)
+    dataset_test = HipLandmarksDataset(config.data_csv_test, config.data_root, transform_test)
+    train_loader = DataLoader(dataset=dataset_train, batch_size=config.batch_size, shuffle=False,
+                              num_workers=config.num_workers)
+
+    test_loader = DataLoader(dataset=dataset_test, batch_size=config.batch_size, shuffle=False,
+                             num_workers=config.num_workers)
+    return train_loader, test_loader
+
+
 def get_dataloader2DJigSaw(config):
     transform_train = transforms.Compose([
         # transforms.ToPILImage(),

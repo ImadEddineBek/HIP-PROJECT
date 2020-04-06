@@ -9,22 +9,31 @@ import os
 import pandas as pd
 import skimage
 import torch.nn as nn
+from sklearn.metrics import accuracy_score
 from termcolor import colored
 from torch import optim
 from torch.autograd import Variable
 import torch.nn.functional as F
-from dataloaders.dataloader2D import get_dataloader2D, get_dataloader2DJigSaw
-from models import conv2d
+from dataloaders.dataloader2D import get_dataloader2D, get_dataloader2DJigSaw, get_dataloader2DClassifier
+from models import conv2d, classifier2d
+
+
+def accuracy_function(true_labels, predicted_labels):
+    _, pred = torch.max(predicted_labels, 1)
+    correct = np.squeeze(pred.eq(true_labels.data.view_as(pred)))
+    return correct.float().mean()
 
 
 class Trainer2DClassifier:
     def __init__(self, config):
         self.experiment = Experiment(api_key='CQ4yEzhJorcxul2hHE5gxVNGu', project_name='HIP')
         self.config = config
-        self.model = conv2d.Conv2DPatches()
+        self.experiment.log_parameters(config)
+
+        self.log_step = config.log_step
+        self.model = classifier2d.ConvClassifier()
         print(self.model)
-        self.train_loader, self.test_loader = get_dataloader2D(config)
-        self.train_loader_jig, self.test_loader_jig = get_dataloader2DJigSaw(config)
+        self.train_loader, self.test_loader = get_dataloader2DClassifier(config)
         self.net_optimizer = optim.Adam(self.model.parameters(), config.lr, [0.5, 0.9999], amsgrad=True)
         if torch.cuda.is_available():
             self.model = self.model.cuda()
@@ -33,32 +42,10 @@ class Trainer2DClassifier:
         self.epochs = config.epochs
         if torch.cuda.is_available():
             self.model = self.model.cuda()
-        #     self.model = self.model.cuda()
         self.image_size = config.image_size
 
     def pre_train(self):
-        return
-        print("Starting pre-training and solving the jigsaw puzzle")
-        for epoch in range(self.epochs):
-            print("Starting epoch {}".format(epoch))
-            train_loader = iter(self.train_loader_jig)
-            with self.experiment.train():
-                for i in range(len(train_loader)):
-                    self.net_optimizer.zero_grad()
-                    data, indexes = train_loader.next()
-                    # print(landmarks)
-                    # print(landmarks.shape)
-                    data, indexes = self.to_var(data), self.to_var(indexes).float()
-                    B, L, H, W = data.size()
-                    B, L, S = indexes.size()
-
-                    jig_out, _ = self.model(data, True)
-                    loss = self.criterion_d(jig_out, indexes.view(-1, S))
-                    loss.backward()
-                    self.net_optimizer.step()
-                    # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
-                    self.experiment.log_metric('pre-loss', loss.item())
-                    print('loss: {}'.format(loss.item()))
+        pass
 
     def train(self):
         print("Starting training")
@@ -68,71 +55,76 @@ class Trainer2DClassifier:
             with self.experiment.train():
                 for i in range(len(train_loader)):
                     self.net_optimizer.zero_grad()
-                    data, landmarks = train_loader.next()
+                    data, classes = train_loader.next()
                     # print(landmarks)
                     # print(landmarks.shape)
-                    data, landmarks = self.to_var(data), self.to_var(landmarks)
-                    B, L, H, W = data.size()
-                    B, L, S = landmarks.size()
-                    y = landmarks[:, :, 1].view(B, L)
-                    y_slices = torch.zeros([B, L, H, W], dtype=torch.float32)
-                    for i in range(B):
-                        y_slices[i] = data[i, y[i]]
+                    data, classes = self.to_var(data), self.to_var(classes)
+                    # B, L, H, W = data.size()
+                    # B, L = classes.size()
 
-                    jig_out, detected_points = self.model(y_slices)
-                    landmarks = landmarks.float() / self.image_size
-                    loss = self.criterion_d(detected_points, landmarks[:, :, [0, 2]])
+                    detected_points = self.model(data)
+                    loss = self.criterion_c(detected_points, classes)
                     loss.backward()
                     self.net_optimizer.step()
                     # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
                     self.experiment.log_metric('loss', loss.item())
                     print('loss: {}'.format(loss.item()))
-            with self.experiment.test():
-                self.evaluate()
+            if epoch % self.log_step == 0:
+                with self.experiment.test():
+                    self.evaluate()
+                    # evaluator = Evaluator(self, self.test_loader)
+                    # evaluator.report()
         self.experiment.end()
+
+    # @staticmethod
+    # def accuracy(detected_points, classes):
+    #     return accuracy_score(classes, detected_points)
 
     def evaluate(self):
         test_loader = iter(self.test_loader)
         with self.experiment.test():
             loss = 0
+            accuracy = 0
             for i in range(len(test_loader)):
                 self.net_optimizer.zero_grad()
-                data, landmarks = test_loader.next()
-                data, landmarks = self.to_var(data), self.to_var(landmarks)
-                B, L, H, W = data.size()
-                B, L, S = landmarks.size()
-                y = landmarks[:, :, 1].view(B, L)
-                y_slices = torch.zeros([B, L, H, W], dtype=torch.float32)
-                for i in range(B):
-                    y_slices[i] = data[i, y[i]]
+                data, classes = test_loader.next()
+                # print(landmarks)
+                # print(landmarks.shape)
+                data, classes = self.to_var(data), self.to_var(classes)
+                # B, L, H, W = data.size()
+                # B, L, S = classes.size()
 
-                jig_out, detected_points = self.model(y_slices)
-                landmarks = landmarks.float() / self.image_size
-                loss += self.criterion_d(detected_points, landmarks[:, :, [0, 2]]).item()
-                self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
+                detected_points = self.model(data)
+                loss += self.criterion_c(detected_points, classes).item()
+                accuracy += accuracy_function(classes.cpu().detach(), detected_points.cpu().detach()).item()
+                # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
+            print('loss', loss / len(test_loader))
             self.experiment.log_metric('loss', loss / len(test_loader))
+            print('accuracy', accuracy / len(test_loader))
+            self.experiment.log_metric('accuracy', accuracy / len(test_loader))
 
     def plots(self, slices, real, predicted):
-        figure, axes = plt.subplots(nrows=4, ncols=4, figsize=(15, 15))
-        slices = slices[0].cpu().detach().numpy()
-        real = real[0].cpu().detach().numpy()
-        predicted = predicted[0].cpu().detach().numpy()
-        real *= self.image_size
-        predicted *= self.image_size
-        s = 0
-        # print(real.size())
-        # print(predicted.size())
-        for i in range(4):
-            for j in range(4):
-                axes[i, j].imshow(slices[s])
-                x, z = real[s]
-                axes[i, j].scatter(x, z, color='red')
-                x, z = predicted[s]
-                axes[i, j].scatter(x, z, color='blue')
-                s += 1
-        self.experiment.log_figure(figure=plt)
-        plt.savefig('artifacts/predictions/img.png')
-        plt.show()
+        pass
+        # figure, axes = plt.subplots(nrows=4, ncols=4, figsize=(15, 15))
+        # slices = slices[0].cpu().detach().numpy()
+        # real = real[0].cpu().detach().numpy()
+        # predicted = predicted[0].cpu().detach().numpy()
+        # real *= self.image_size
+        # predicted *= self.image_size
+        # s = 0
+        # # print(real.size())
+        # # print(predicted.size())
+        # for i in range(4):
+        #     for j in range(4):
+        #         axes[i, j].imshow(slices[s])
+        #         x, z = real[s]
+        #         axes[i, j].scatter(x, z, color='red')
+        #         x, z = predicted[s]
+        #         axes[i, j].scatter(x, z, color='blue')
+        #         s += 1
+        # self.experiment.log_figure(figure=plt)
+        # plt.savefig('artifacts/predictions/img.png')
+        # plt.show()
 
     def to_var(self, x):
         """Converts numpy to variable."""

@@ -37,7 +37,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     # model hyper-parameters
-    parser.add_argument('--image_size', type=int, default=350)
+    parser.add_argument('--image_size', type=int, default=100)
     # parser.add_argument('--alpha_s', type=float, default=0.5)
     # parser.add_argument('--alpha_t', type=float, default=0.8)
     # parser.add_argument('--beta_c', type=float, default=1)
@@ -45,14 +45,14 @@ if __name__ == '__main__':
     # parser.add_argument('--beta_p', type=float, default=4)
 
     # training hyper-parameters
-    parser.add_argument('--epochs', type=int, default=200)
+    parser.add_argument('--epochs', type=int, default=300)
     parser.add_argument('--batch_size', type=int, default=1)
-    parser.add_argument('--num_workers', type=int, default=5)
-    parser.add_argument('--lr', type=float, default=0.0003)
-    parser.add_argument('--lr_c', type=float, default=0.003)
+    parser.add_argument('--num_workers', type=int, default=15)
+    parser.add_argument('--lr', type=float, default=0.3)
+    parser.add_argument('--lr_c', type=float, default=0.3)
 
     # misc
-    parser.add_argument('--mode', type=str, default='2D_regression')
+    parser.add_argument('--mode', type=str, default='2D_classification')
     parser.add_argument('--model_path', type=str, default='./models')
     parser.add_argument('--data_csv_train', type=str, default='./data/data.csv')
     parser.add_argument('--data_csv_test', type=str, default='./data/data.csv')

@@ -7,20 +7,20 @@ from torch import nn as nn
 
 
 class ConvClassifier(nn.Module):
-    def __init__(self, jigsaw_classes=100, n_classes=16, dropout=True):
+    def __init__(self, jigsaw_classes=100, n_classes=17, dropout=True):
         super(ConvClassifier, self).__init__()
         print("Using 2D Convolutional Classifier model")
         self.features = nn.Sequential(OrderedDict([
-            ("conv1", nn.Conv2d(1, 16, kernel_size=3, stride=0)),
+            ("conv1", nn.Conv2d(1, 16, kernel_size=3)),
             ("relu1", nn.ReLU(inplace=True)),
-            ("pool1", nn.MaxPool2d(kernel_size=2, stride=0)),
-            ("conv2", nn.Conv2d(16, 32, kernel_size=3, stride=0)),
+            ("pool1", nn.MaxPool2d(kernel_size=2)),
+            ("conv2", nn.Conv2d(16, 32, kernel_size=3)),
             ("relu2", nn.ReLU(inplace=True)),
-            ("pool2", nn.MaxPool2d(kernel_size=2, stride=0)),
-            ("conv3", nn.Conv2d(32, 64, kernel_size=5)),
+            ("pool2", nn.MaxPool2d(kernel_size=2)),
+            ("conv3", nn.Conv2d(32, 64, kernel_size=3)),
             ("relu3", nn.ReLU(inplace=True)),
         ]))
-        self.fc_size = 144
+        self.fc_size = 64
         self.point_detectors = nn.Linear(self.fc_size, n_classes)
 
         for m in self.modules():
