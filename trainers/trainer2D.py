@@ -21,7 +21,7 @@ from utils.evaluate import Evaluator
 class Trainer2D:
     def __init__(self, config):
         self.experiment = Experiment(api_key='CQ4yEzhJorcxul2hHE5gxVNGu', project_name='HIP')
-        self.experiment.log_parameters(config)
+        self.experiment.log_parameters(vars(config))
         self.config = config
         self.log_step = config.log_step
         self.model = conv2d.Conv2DPatches()
@@ -77,6 +77,8 @@ class Trainer2D:
         if os.path.isfile(self.model_path):
             print("Using pre-trained model")
             self.model = torch.load(self.model_path)
+        if False:
+            pass
         else:
             print("Starting training")
             if torch.cuda.is_available():

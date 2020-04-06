@@ -92,6 +92,8 @@ class Evaluator:
 
         l1_means, l1_stds, l1_mins, l1_maxs = process_loss(l1)
         l2_means, l2_stds, l2_mins, l2_maxs = process_loss(l2)
+
+        self.trainer.experiment.log_metric('mean error', l1_means[0])
         print('\t\t means, stds, mins, maxes')
         for i in range(len(l1_means)):
             print('%s: %.2f, %.2f, %.2f, %.2f' % (

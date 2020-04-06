@@ -9,6 +9,7 @@ from skimage import transform
 import random
 from torchvision.utils import make_grid
 import torchvision.transforms as transforms
+import matplotlib.pyplot as plt
 
 warnings.filterwarnings("ignore")
 
@@ -236,8 +237,9 @@ class ToTensorTest(object):
 class ToTensorClassifier(object):
     """Convert ndarrays in sample to Tensors."""
 
-    def __init__(self, image_size=350):
+    def __init__(self, image_size=350, path_size=10):
         self.image_size = image_size
+        self.path_size = path_size
 
     def __call__(self, sample):
         image, landmarks = sample['image'], sample['landmarks']
@@ -251,41 +253,52 @@ class ToTensorClassifier(object):
         landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
         landmarks += np.random.randint(-5, 5, size=landmarks.shape)
         landmarks = list(landmarks)
-        landmarks.append([random.randint(10, self.image_size - 10), random.randint(0, L),
-                          random.randint(10, self.image_size - 10)])
+        landmarks.append([random.randint(self.path_size, self.image_size - self.path_size), random.randint(0, L),
+                          random.randint(self.path_size, self.image_size - self.path_size)])
         landmarks = np.array(landmarks)
         classes = np.array(list(range(len(landmarks))))
-        images = np.zeros(shape=(len(landmarks), 20, 20))
+        images = np.zeros(shape=(len(landmarks), 2 * self.path_size, 2 * self.path_size))
         image = image.transpose((1, 0, 2))
+        print(image.shape)
         for i in range(len(classes)):
             f = np.random.choice(fi, 1)[0]
-            ii = transform.resize(image[i], (self.image_size, self.image_size)) + np.random.normal(0, 0.1, (
-                self.image_size, self.image_size))
+
             landmark = landmarks[i]
             x, y, z = landmark[0], landmark[1], landmark[2]
-            if z < 10:
-                z = 10
-            if z > self.image_size - 10:
-                z = self.image_size - 10
-
-            if x < 10:
-                x = 10
-            if x > self.image_size - 10:
-                x = self.image_size - 10
+            # print(i, x, y, z)
+            if z < self.path_size:
+                z = self.path_size
+            if z >= self.image_size - self.path_size:
+                z = self.image_size - self.path_size - 1
+            if x < self.path_size:
+                x = self.path_size
+            if x >= self.image_size - self.path_size:
+                x = self.image_size - self.path_size - 1
 
             if y < 1:
                 y = 1
             if y >= L:
                 y = L - 1
 
-            if z < 10 or z > self.image_size - 10:
+            if z <= self.path_size or z >= self.image_size - self.path_size:
                 print(i, x, y, z)
-            if x < 10 or x > self.image_size - 10:
+            if x <= self.path_size or x >= self.image_size - self.path_size:
                 print(i, x, y, z)
-            iii = image[y, x - 10:x + 10, z - 10:z + 10]
 
-            images[i] = f(iii)
-
+            ii = transform.resize(image[y], (self.image_size, self.image_size)) + np.random.normal(0, 0.01, (
+                self.image_size, self.image_size))
+            plt.imshow(ii)
+            plt.savefig('orig' + str(i) + '.png')
+            print(ii.shape)
+            iii = ii[z - self.path_size:z + self.path_size, x - self.path_size:x + self.path_size]
+            try:
+                images[i] = f(iii)
+            except:
+                print(i, x, y, z)
+                # sdfiuhdsfh()
+            print(i, x, y, z)
+            plt.imshow(images[i])
+            plt.savefig('check' + str(i) + '.png')
             # image_ = np.zeros((L, self.image_size, self.image_size))
             # for i in range(L):
             #     f = identity
@@ -296,6 +309,7 @@ class ToTensorClassifier(object):
             # image_[i][image_[i] > 1] = 1.
 
             # print('here2', image_.shape)
+        # fsd()
         return {'image': torch.from_numpy(images),
                 'landmarks': torch.from_numpy(classes)}
 
@@ -303,8 +317,9 @@ class ToTensorClassifier(object):
 class ToTensorTestClassifier(object):
     """Convert ndarrays in sample to Tensors."""
 
-    def __init__(self, image_size=350):
+    def __init__(self, image_size=350, path_size=10):
         self.image_size = image_size
+        self.path_size = path_size
 
     def __call__(self, sample):
         image, landmarks = sample['image'], sample['landmarks']
@@ -318,41 +333,52 @@ class ToTensorTestClassifier(object):
         landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
         # landmarks += np.random.randint(-5, 5, size=landmarks.shape)
         landmarks = list(landmarks)
-        landmarks.append([random.randint(10, self.image_size - 10), random.randint(0, L),
-                          random.randint(10, self.image_size - 10)])
+        landmarks.append([random.randint(self.path_size, self.image_size - self.path_size), random.randint(0, L),
+                          random.randint(self.path_size, self.image_size - self.path_size)])
         landmarks = np.array(landmarks)
         classes = np.array(list(range(len(landmarks))))
-        images = np.zeros(shape=(len(landmarks), 20, 20))
+        images = np.zeros(shape=(len(landmarks), 2 * self.path_size, 2 * self.path_size))
         image = image.transpose((1, 0, 2))
+        print(image.shape)
         for i in range(len(classes)):
             f = np.random.choice(fi, 1)[0]
-            ii = transform.resize(image[i], (self.image_size, self.image_size)) + np.random.normal(0, 0.1, (
-                self.image_size, self.image_size))
+
             landmark = landmarks[i]
             x, y, z = landmark[0], landmark[1], landmark[2]
-            if z < 10:
-                z = 10
-            if z > self.image_size - 10:
-                z = self.image_size - 10
-
-            if x < 10:
-                x = 10
-            if x > self.image_size - 10:
-                x = self.image_size - 10
+            # print(i, x, y, z)
+            if z < self.path_size:
+                z = self.path_size
+            if z >= self.image_size - self.path_size:
+                z = self.image_size - self.path_size - 1
+            if x < self.path_size:
+                x = self.path_size
+            if x >= self.image_size - self.path_size:
+                x = self.image_size - self.path_size - 1
 
             if y < 1:
                 y = 1
             if y >= L:
                 y = L - 1
 
-            if z < 10 or z > self.image_size - 10:
+            if z <= self.path_size or z >= self.image_size - self.path_size:
                 print(i, x, y, z)
-            if x < 10 or x > self.image_size - 10:
+            if x <= self.path_size or x >= self.image_size - self.path_size:
                 print(i, x, y, z)
-            iii = image[y, x - 10:x + 10, z - 10:z + 10]
 
-            images[i] = iii
-
+            ii = transform.resize(image[y], (self.image_size, self.image_size)) + np.random.normal(0, 0.01, (
+                self.image_size, self.image_size))
+            plt.imshow(ii)
+            plt.savefig('orig' + str(i) + '.png')
+            print(ii.shape)
+            iii = ii[z - self.path_size:z + self.path_size, x - self.path_size:x + self.path_size]
+            try:
+                images[i] = iii
+            except:
+                print(i, x, y, z)
+                # sdfiuhdsfh()
+            print(i, x, y, z)
+            plt.imshow(images[i])
+            plt.savefig('check' + str(i) + '.png')
             # image_ = np.zeros((L, self.image_size, self.image_size))
             # for i in range(L):
             #     f = identity
@@ -363,6 +389,7 @@ class ToTensorTestClassifier(object):
             # image_[i][image_[i] > 1] = 1.
 
             # print('here2', image_.shape)
+        # fsd()
         return {'image': torch.from_numpy(images),
                 'landmarks': torch.from_numpy(classes)}
 

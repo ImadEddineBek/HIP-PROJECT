@@ -28,7 +28,7 @@ class Trainer2DClassifier:
     def __init__(self, config):
         self.experiment = Experiment(api_key='CQ4yEzhJorcxul2hHE5gxVNGu', project_name='HIP')
         self.config = config
-        self.experiment.log_parameters(config)
+        self.experiment.log_parameters(vars(config))
 
         self.log_step = config.log_step
         self.model = classifier2d.ConvClassifier()
@@ -63,6 +63,7 @@ class Trainer2DClassifier:
                     # B, L = classes.size()
 
                     detected_points = self.model(data)
+                    # print(classes.size())
                     loss = self.criterion_c(detected_points, classes)
                     loss.backward()
                     self.net_optimizer.step()

@@ -178,12 +178,12 @@ def get_dataloader2DClassifier(config):
     transform_train = transforms.Compose([
         # transforms.ToPILImage(),
         # transforms.Resize(config.image_size),
-        ToTensorClassifier(config.image_size),
+        ToTensorTestClassifier(config.image_size),
         # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
     transform_test = transforms.Compose([
         # transforms.Resize(config.image_size),
-        ToTensorTestClassifier(),
+        ToTensorTestClassifier(config.image_size),
         # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
 
