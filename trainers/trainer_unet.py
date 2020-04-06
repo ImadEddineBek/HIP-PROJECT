@@ -27,7 +27,7 @@ class Trainer2D:
         self.train_loader_jig, self.test_loader_jig = get_dataloader2DJigSaw(config)
         self.net_optimizer = optim.Adam(self.model.parameters(), config.lr, [0.5, 0.9999])
         if torch.cuda.is_available():
-            self.model.cuda()
+            self.model = self.model.cuda()
         self.criterion_c = nn.CrossEntropyLoss()
         self.criterion_d = nn.MSELoss()
         self.epochs = config.epochs

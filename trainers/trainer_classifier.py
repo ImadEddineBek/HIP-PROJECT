@@ -17,7 +17,7 @@ from dataloaders.dataloader2D import get_dataloader2D, get_dataloader2DJigSaw
 from models import conv2d
 
 
-class Trainer2D:
+class Trainer2DClassifier:
     def __init__(self, config):
         self.experiment = Experiment(api_key='CQ4yEzhJorcxul2hHE5gxVNGu', project_name='HIP')
         self.config = config
@@ -25,17 +25,19 @@ class Trainer2D:
         print(self.model)
         self.train_loader, self.test_loader = get_dataloader2D(config)
         self.train_loader_jig, self.test_loader_jig = get_dataloader2DJigSaw(config)
-        self.net_optimizer = optim.Adam(self.model.parameters(), config.lr, [0.5, 0.9999])
+        self.net_optimizer = optim.Adam(self.model.parameters(), config.lr, [0.5, 0.9999], amsgrad=True)
         if torch.cuda.is_available():
-            self.model.cuda()
+            self.model = self.model.cuda()
         self.criterion_c = nn.CrossEntropyLoss()
         self.criterion_d = nn.MSELoss()
         self.epochs = config.epochs
         if torch.cuda.is_available():
             self.model = self.model.cuda()
         #     self.model = self.model.cuda()
+        self.image_size = config.image_size
 
     def pre_train(self):
+        return
         print("Starting pre-training and solving the jigsaw puzzle")
         for epoch in range(self.epochs):
             print("Starting epoch {}".format(epoch))
@@ -78,7 +80,7 @@ class Trainer2D:
                         y_slices[i] = data[i, y[i]]
 
                     jig_out, detected_points = self.model(y_slices)
-                    landmarks = landmarks.float() / 350.
+                    landmarks = landmarks.float() / self.image_size
                     loss = self.criterion_d(detected_points, landmarks[:, :, [0, 2]])
                     loss.backward()
                     self.net_optimizer.step()
@@ -105,7 +107,7 @@ class Trainer2D:
                     y_slices[i] = data[i, y[i]]
 
                 jig_out, detected_points = self.model(y_slices)
-                landmarks = landmarks.float() / 350.
+                landmarks = landmarks.float() / self.image_size
                 loss += self.criterion_d(detected_points, landmarks[:, :, [0, 2]]).item()
                 self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
             self.experiment.log_metric('loss', loss / len(test_loader))
@@ -115,8 +117,8 @@ class Trainer2D:
         slices = slices[0].cpu().detach().numpy()
         real = real[0].cpu().detach().numpy()
         predicted = predicted[0].cpu().detach().numpy()
-        real *= 350
-        predicted *= 350
+        real *= self.image_size
+        predicted *= self.image_size
         s = 0
         # print(real.size())
         # print(predicted.size())

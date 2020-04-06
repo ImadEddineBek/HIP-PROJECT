@@ -5,6 +5,7 @@ from comet_ml import Experiment
 # from data_loader import get_loader
 from dataloaders.dataloader2D import get_dataloader2D
 from trainers.trainer2D import Trainer2D
+from trainers.trainer_classifier import Trainer2DClassifier
 from torch.backends import cudnn
 
 from utils.evaluate import Evaluator
@@ -14,7 +15,6 @@ from utils.utils import fix_path
 def main(config):
     # svhn_loader, mnist_loader, mnist_val_loader = get_loader(config)
     # print("loaded")
-    solver = Trainer2D(config)
     # cudnn.benchmark = True
 
     # create directories if not exist
@@ -22,8 +22,14 @@ def main(config):
     #     os.makedirs(config.model_path)
     '''if not os.path.exists(config.sample_path):
         os.makedirs(config.sample_path)'''
-    solver.pre_train()
-    solver.train()
+    if config.mode == '2D_regression':
+        solver = Trainer2D(config)
+        solver.pre_train()
+        solver.train()
+    elif config.mode == '2D_classification':
+        solver = Trainer2DClassifier(config)
+        solver.pre_train()
+        solver.train()
 
 
 if __name__ == '__main__':
@@ -39,14 +45,14 @@ if __name__ == '__main__':
     # parser.add_argument('--beta_p', type=float, default=4)
 
     # training hyper-parameters
-    parser.add_argument('--epochs', type=int, default=100)
+    parser.add_argument('--epochs', type=int, default=200)
     parser.add_argument('--batch_size', type=int, default=1)
-    parser.add_argument('--num_workers', type=int, default=0)
-    parser.add_argument('--lr', type=float, default=0.0001)
+    parser.add_argument('--num_workers', type=int, default=5)
+    parser.add_argument('--lr', type=float, default=0.0003)
     parser.add_argument('--lr_c', type=float, default=0.003)
 
     # misc
-    parser.add_argument('--mode', type=str, default='2D')
+    parser.add_argument('--mode', type=str, default='2D_regression')
     parser.add_argument('--model_path', type=str, default='./models')
     parser.add_argument('--data_csv_train', type=str, default='./data/data.csv')
     parser.add_argument('--data_csv_test', type=str, default='./data/data.csv')

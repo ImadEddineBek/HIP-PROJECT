@@ -125,6 +125,9 @@ class RandomCrop(object):
 class ToTensorJigsaw(object):
     """Convert ndarrays in sample to Tensors."""
 
+    def __init__(self, image_size=350):
+        self.image_size = image_size
+
     def __call__(self, sample):
         image, indexes = sample['image'], sample['indexes']
         H, L, W = image.shape
@@ -134,12 +137,13 @@ class ToTensorJigsaw(object):
         # torch image: C X H X W
         # print('here2', landmarks.shape)
         image = image.transpose((1, 0, 2))
-        image_ = np.zeros((L, 350, 350))
+        image_ = np.zeros((L, self.image_size, self.image_size))
         indexes = np.zeros((L, 100))
         for i in range(L):
             f = np.random.choice(fi, 1)[0]
             image_[i], indexes[i] = make_permutation(
-                f(transform.resize(image[i], (350, 350))) + np.random.normal(0, 0.1, (350, 350)))
+                f(transform.resize(image[i], (self.image_size, self.image_size))) + np.random.normal(0, 0.1, (
+                    self.image_size, self.image_size)))
             image_[i][image_[i] < 0] = 0.
             image_[i][image_[i] > 1] = 1.
         return {'image': torch.from_numpy(image_),
@@ -149,6 +153,9 @@ class ToTensorJigsaw(object):
 class ToTensorJigsawTest(object):
     """Convert ndarrays in sample to Tensors."""
 
+    def __init__(self, image_size=350):
+        self.image_size = image_size
+
     def __call__(self, sample):
         image, indexes = sample['image'], sample['indexes']
         H, L, W = image.shape
@@ -158,10 +165,10 @@ class ToTensorJigsawTest(object):
         # torch image: C X H X W
         # print('here2', landmarks.shape)
         image = image.transpose((1, 0, 2))
-        image_ = np.zeros((L, 350, 350))
+        image_ = np.zeros((L, self.image_size, self.image_size))
         indexes = np.zeros((L, 100))
         for i in range(L):
-            image_[i], indexes[i] = make_permutation(transform.resize(image[i], (350, 350)))
+            image_[i], indexes[i] = make_permutation(transform.resize(image[i], (self.image_size, self.image_size)))
             image_[i][image_[i] < 0] = 0.
             image_[i][image_[i] > 1] = 1.
         return {'image': torch.from_numpy(image_),
@@ -171,6 +178,9 @@ class ToTensorJigsawTest(object):
 class ToTensor(object):
     """Convert ndarrays in sample to Tensors."""
 
+    def __init__(self, image_size=350):
+        self.image_size = image_size
+
     def __call__(self, sample):
         image, landmarks = sample['image'], sample['landmarks']
         H, L, W = image.shape
@@ -179,14 +189,15 @@ class ToTensor(object):
         # numpy image: H x W x C
         # torch image: C X H X W
         # print('here2', landmarks.shape)
-        landmarks[:, 0] = landmarks[:, 0] * 350 // H
-        landmarks[:, 2] = landmarks[:, 2] * 350 // W
+        landmarks[:, 0] = landmarks[:, 0] * self.image_size // H
+        landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
         image = image.transpose((1, 0, 2))
-        image_ = np.zeros((L, 350, 350))
+        image_ = np.zeros((L, self.image_size, self.image_size))
         for i in range(L):
             f = np.random.choice(fi, 1)[0]
             # print(f)
-            image_[i] = f(transform.resize(image[i], (350, 350))) + np.random.normal(0, 0.1, (350, 350))
+            image_[i] = f(transform.resize(image[i], (self.image_size, self.image_size))) + np.random.normal(0, 0.1, (
+                self.image_size, self.image_size))
             image_[i][image_[i] < 0] = 0.
             image_[i][image_[i] > 1] = 1.
         # print('here2', image_.shape)
@@ -197,6 +208,9 @@ class ToTensor(object):
 class ToTensorTest(object):
     """Convert ndarrays in sample to Tensors."""
 
+    def __init__(self, image_size=350):
+        self.image_size = image_size
+
     def __call__(self, sample):
         image, landmarks = sample['image'], sample['landmarks']
         H, L, W = image.shape
@@ -205,18 +219,104 @@ class ToTensorTest(object):
         # numpy image: H x W x C
         # torch image: C X H X W
         # print('here2', landmarks.shape)
-        landmarks[:, 0] = landmarks[:, 0] * 350 // H
-        landmarks[:, 2] = landmarks[:, 2] * 350 // W
+        landmarks[:, 0] = landmarks[:, 0] * self.image_size // H
+        landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
         image = image.transpose((1, 0, 2))
-        image_ = np.zeros((L, 350, 350))
+        image_ = np.zeros((L, self.image_size, self.image_size))
         for i in range(L):
             # f = np.random.choice(fi, 1)[0]
             # print(f)
-            image_[i] = transform.resize(image[i], (350, 350))
+            image_[i] = transform.resize(image[i], (self.image_size, self.image_size))
 
         # print('here2', image_.shape)
         return {'image': torch.from_numpy(image_),
                 'landmarks': torch.from_numpy(landmarks)}
+
+
+class ToTensorClassifier(object):
+    """Convert ndarrays in sample to Tensors."""
+
+    def __init__(self, image_size=350):
+        self.image_size = image_size
+
+    def __call__(self, sample):
+        image, landmarks = sample['image'], sample['landmarks']
+        H, L, W = image.shape
+        # print('here1', L, H, W)
+        # swap color axis because
+        # numpy image: H x W x C
+        # torch image: C X H X W
+        # print('here2', landmarks.shape)
+        landmarks[:, 0] = landmarks[:, 0] * self.image_size // H
+        landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
+        landmarks += np.random.randint(-5, 5, size=landmarks.shape)
+        classes = np.array(list(range(len(landmarks) + 1)))
+        images = np.zeros(shape=(len(landmarks) + 1, 20, 20))
+        image = image.transpose((1, 0, 2))
+        for i in range(len(classes)):
+            f = np.random.choice(fi, 1)[0]
+            ii = transform.resize(image[i], (self.image_size, self.image_size)) + np.random.normal(0, 0.1, (
+                self.image_size, self.image_size))
+            landmark = landmarks[i]
+            x, y, z = landmark[0], landmark[1], landmark[2]
+            iii = image[y, x - 10:x + 10, z - 10:z + 10]
+            images[i] = f(iii)
+
+            # image_ = np.zeros((L, self.image_size, self.image_size))
+            # for i in range(L):
+            #     f = identity
+            # # print(f)
+            # image_[i] = f(transform.resize(image[i], (self.image_size, self.image_size))) + np.random.normal(0, 0.1, (
+            #     self.image_size, self.image_size))
+            # image_[i][image_[i] < 0] = 0.
+            # image_[i][image_[i] > 1] = 1.
+
+            # print('here2', image_.shape)
+        return {'image': torch.from_numpy(images),
+                'classes': torch.from_numpy(classes)}
+
+
+class ToTensorTestClassifier(object):
+    """Convert ndarrays in sample to Tensors."""
+
+    def __init__(self, image_size=350):
+        self.image_size = image_size
+
+    def __call__(self, sample):
+        image, landmarks = sample['image'], sample['landmarks']
+        H, L, W = image.shape
+        # print('here1', L, H, W)
+        # swap color axis because
+        # numpy image: H x W x C
+        # torch image: C X H X W
+        # print('here2', landmarks.shape)
+        landmarks[:, 0] = landmarks[:, 0] * self.image_size // H
+        landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
+        landmarks += np.random.randint(-5, 5, size=landmarks.shape)
+        classes = np.array(list(range(len(landmarks) + 1)))
+        images = np.zeros(shape=(len(landmarks) + 1, 20, 20))
+        image = image.transpose((1, 0, 2))
+        for i in range(len(classes)):
+            # f = np.random.choice(fi, 1)[0]
+            ii = transform.resize(image[i], (self.image_size, self.image_size)) + np.random.normal(0, 0.1, (
+                self.image_size, self.image_size))
+            landmark = landmarks[i]
+            x, y, z = landmark[0], landmark[1], landmark[2]
+            iii = image[y, x - 10:x + 10, z - 10:z + 10]
+            images[i] = iii
+
+            # image_ = np.zeros((L, self.image_size, self.image_size))
+            # for i in range(L):
+            #     f = identity
+            # # print(f)
+            # image_[i] = f(transform.resize(image[i], (self.image_size, self.image_size))) + np.random.normal(0, 0.1, (
+            #     self.image_size, self.image_size))
+            # image_[i][image_[i] < 0] = 0.
+            # image_[i][image_[i] > 1] = 1.
+
+            # print('here2', image_.shape)
+        return {'image': torch.from_numpy(images),
+                'classes': torch.from_numpy(classes)}
 
 
 class Rescale(object):

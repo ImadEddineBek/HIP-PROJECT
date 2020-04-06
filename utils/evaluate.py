@@ -34,12 +34,15 @@ class Evaluator:
             B, L, S = landmarks.size()
             y = landmarks[:, :, 1].view(B, L)
             y_slices = torch.zeros([B, L, H, W], dtype=torch.float32)
+            if torch.cuda.is_available():
+                y_slices = y_slices.cuda()
             for i in range(B):
                 y_slices[i] = data[i, y[i]]
 
             detected_points = self.trainer.predict(y_slices)
             landmarks = landmarks.float()
-            l1_loss = np.abs((landmarks[:, :, [0, 2]] - detected_points * 350).detach().cpu().numpy())
+            l1_loss = np.abs(
+                (landmarks[:, :, [0, 2]] - detected_points * self.trainer.image_size).detach().cpu().numpy())
             if losses is None:
                 losses = l1_loss
             else:
@@ -63,7 +66,8 @@ class Evaluator:
 
             detected_points = self.trainer.predict(y_slices)
             landmarks = landmarks.float()
-            l2_loss = np.abs(((landmarks[:, :, [0, 2]] - detected_points * 350) ** 2).detach().cpu().numpy())
+            l2_loss = np.abs(
+                ((landmarks[:, :, [0, 2]] - detected_points * self.trainer.image_size) ** 2).detach().cpu().numpy())
             if losses is None:
                 losses = l2_loss
             else:

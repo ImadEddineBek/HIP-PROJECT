@@ -22,6 +22,7 @@ class Trainer2D:
     def __init__(self, config):
         self.experiment = Experiment(api_key='CQ4yEzhJorcxul2hHE5gxVNGu', project_name='HIP')
         self.config = config
+        self.log_step = config.log_step
         self.model = conv2d.Conv2DPatches()
         print(self.model)
         self.d = get_dataloader2D(config)
@@ -29,7 +30,7 @@ class Trainer2D:
         self.train_loader_jig, self.test_loader_jig = get_dataloader2DJigSaw(config)
         self.net_optimizer = optim.Adam(self.model.parameters(), config.lr, [0.5, 0.9999])
         if torch.cuda.is_available():
-            self.model.cuda()
+            self.model = self.model.cuda()
         self.criterion_c = nn.CrossEntropyLoss()
         self.criterion_d = nn.MSELoss()
         self.epochs = config.epochs
@@ -39,6 +40,7 @@ class Trainer2D:
         #     self.model = self.model.cuda()
         self.pre_model_path = './artifacts/pre_models/' + str(config.lr) + '.pth'
         self.model_path = './artifacts/models/' + str(config.lr) + '.pth'
+        self.image_size = config.image_size
 
     def pre_train(self):
 
@@ -93,16 +95,19 @@ class Trainer2D:
                         for i in range(B):
                             y_slices[i] = data[i, y[i]]
 
-                        jig_out, detected_points = self.model(y_slices.cuda())
-                        landmarks = landmarks.float() / 350.
-                        loss = self.criterion_d(detected_points, landmarks[:, :, [0, 2]].cuda())
+                        jig_out, detected_points = self.model(y_slices)
+                        landmarks = landmarks.float() / self.image_size
+                        loss = self.criterion_d(detected_points, landmarks[:, :, [0, 2]])
                         loss.backward()
                         self.net_optimizer.step()
                         # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
                         self.experiment.log_metric('loss', loss.item())
                         print('loss: {}'.format(loss.item()))
-                with self.experiment.test():
-                    self.evaluate()
+                if epoch % self.log_step == 0:
+                    with self.experiment.test():
+                        self.evaluate()
+                        evaluator = Evaluator(self, self.test_loader)
+                        evaluator.report()
             torch.save(self.model, self.model_path)
         evaluator = Evaluator(self, self.test_loader)
         evaluator.report()
@@ -123,7 +128,7 @@ class Trainer2D:
                     y_slices[i] = data[i, y[i]]
 
                 jig_out, detected_points = self.model(y_slices)
-                landmarks = landmarks.float() / 350.
+                landmarks = landmarks.float() / self.image_size
                 loss += self.criterion_d(detected_points, landmarks[:, :, [0, 2]]).item()
                 self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
             self.experiment.log_metric('loss', loss / len(test_loader))
@@ -133,8 +138,8 @@ class Trainer2D:
         slices = slices[0].cpu().detach().numpy()
         real = real[0].cpu().detach().numpy()
         predicted = predicted[0].cpu().detach().numpy()
-        real *= 350
-        predicted *= 350
+        real *= self.image_size
+        predicted *= self.image_size
         s = 0
         # print(real.size())
         # print(predicted.size())

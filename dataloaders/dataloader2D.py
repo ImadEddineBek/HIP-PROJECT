@@ -155,7 +155,7 @@ def get_dataloader2D(config):
     transform_train = transforms.Compose([
         # transforms.ToPILImage(),
         # transforms.Resize(config.image_size),
-        ToTensor(),
+        ToTensor(config.image_size),
         # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
     transform_test = transforms.Compose([
