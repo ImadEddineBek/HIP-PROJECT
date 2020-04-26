@@ -14,6 +14,15 @@ import matplotlib.pyplot as plt
 warnings.filterwarnings("ignore")
 
 
+def coordinate_channels(img):
+    a = list(range(img.shape[0]))
+    a = a * img.shape[0]
+    a = np.array(a).reshape(img.shape[0], img.shape[0]) / img.shape[0]
+    b = a[:].T
+    # print(np.vstack(([img], [a], [b])).shape)
+    return np.vstack(([img], [a], [b]))
+
+
 def thresholding_optimal(img):
     return img > filters.threshold_li(img)
 
@@ -82,12 +91,15 @@ def identity(image):
     return image
 
 
-fi = [filters.roberts, filters.sobel, filters.scharr,
-      filters.prewitt, filters.sobel_h, filters.farid_h,
-      filters.farid_v, filters.sobel_h, filters.sobel_v, filters.scharr_h,
-      filters.scharr_v, filters.prewitt_h, filters.prewitt_v, thresholding_optimal,
-      multi_threshholding,
-      identity, filters.sato, filters.hessian]
+fi = [
+    # filters.roberts, filters.sobel, filters.scharr,
+    #   filters.prewitt, filters.sobel_h, filters.farid_h,
+    #   filters.farid_v, filters.sobel_h, filters.sobel_v, filters.scharr_h,
+    #   filters.scharr_v, filters.prewitt_h, filters.prewitt_v, thresholding_optimal,
+    #   multi_threshholding,
+    identity,
+    # filters.sato, filters.hessian
+]
 
 
 class RandomCrop(object):
@@ -139,16 +151,26 @@ class ToTensorJigsaw(object):
         # print('here2', landmarks.shape)
         image = image.transpose((1, 0, 2))
         image_ = np.zeros((L, self.image_size, self.image_size))
-        indexes = np.zeros((L, 100))
+        if self.image_size == 100:
+            indexes = np.zeros((L, 25))
+        else:
+            indexes = np.zeros((L, 100))
         for i in range(L):
             f = np.random.choice(fi, 1)[0]
-            image_[i], indexes[i] = make_permutation(
-                f(transform.resize(image[i], (self.image_size, self.image_size))) + np.random.normal(0, 0.1, (
-                    self.image_size, self.image_size)))
+            if self.image_size == 100:
+                image_[i], indexes[i] = make_permutation(
+                    f(transform.resize(image[i], (self.image_size, self.image_size))) + np.random.normal(0, 0.1, (
+                        self.image_size, self.image_size)), n_pieces=5)
+                divder = 25
+            else:
+                image_[i], indexes[i] = make_permutation(
+                    f(transform.resize(image[i], (self.image_size, self.image_size))) + np.random.normal(0, 0.1, (
+                        self.image_size, self.image_size)))
+                divder = 100
             image_[i][image_[i] < 0] = 0.
             image_[i][image_[i] > 1] = 1.
         return {'image': torch.from_numpy(image_),
-                'indexes': torch.from_numpy(indexes / 100)}
+                'indexes': torch.from_numpy(indexes / divder)}
 
 
 class ToTensorJigsawTest(object):
@@ -167,13 +189,25 @@ class ToTensorJigsawTest(object):
         # print('here2', landmarks.shape)
         image = image.transpose((1, 0, 2))
         image_ = np.zeros((L, self.image_size, self.image_size))
-        indexes = np.zeros((L, 100))
+        if self.image_size == 100:
+            indexes = np.zeros((L, 25))
+        else:
+            indexes = np.zeros((L, 100))
         for i in range(L):
-            image_[i], indexes[i] = make_permutation(transform.resize(image[i], (self.image_size, self.image_size)))
+            if self.image_size == 100:
+                image_[i], indexes[i] = make_permutation(transform.resize(image[i], (self.image_size, self.image_size)),
+                                                         n_pieces=5)
+                divder = 25
+            else:
+                image_[i], indexes[i] = make_permutation(transform.resize(image[i], (self.image_size, self.image_size)),
+                                                         n_pieces=10)
+                divder = 100
+
             image_[i][image_[i] < 0] = 0.
             image_[i][image_[i] > 1] = 1.
+
         return {'image': torch.from_numpy(image_),
-                'indexes': torch.from_numpy(indexes / 100)}
+                'indexes': torch.from_numpy(indexes / divder)}
 
 
 class ToTensor(object):
@@ -234,6 +268,64 @@ class ToTensorTest(object):
                 'landmarks': torch.from_numpy(landmarks)}
 
 
+class ToTensor_(object):
+    """Convert ndarrays in sample to Tensors."""
+
+    def __init__(self, image_size=350):
+        self.image_size = image_size
+
+    def __call__(self, sample):
+        image, landmarks = sample['image'], sample['landmarks']
+        H, L, W = image.shape
+        # print('here1', L, H, W)
+        # swap color axis because
+        # numpy image: H x W x C
+        # torch image: C X H X W
+        # print('here2', landmarks.shape)
+        landmarks[:, 0] = landmarks[:, 0] * self.image_size // H
+        landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
+        image = image.transpose((1, 0, 2))
+        image_ = np.zeros((L, self.image_size, self.image_size))
+        for i in range(L):
+            f = np.random.choice(fi, 1)[0]
+            # print(f)
+            image_[i] = f(transform.resize(image[i], (self.image_size, self.image_size))) + np.random.normal(0, 0.1, (
+                self.image_size, self.image_size))
+            image_[i][image_[i] < 0] = 0.
+            image_[i][image_[i] > 1] = 1.
+        # print('here2', image_.shape)
+        return {'image': torch.from_numpy(image_),
+                'landmarks': torch.from_numpy(landmarks)}
+
+
+class ToTensorTest_(object):
+    """Convert ndarrays in sample to Tensors."""
+
+    def __init__(self, image_size=350):
+        self.image_size = image_size
+
+    def __call__(self, sample):
+        image, landmarks = sample['image'], sample['landmarks']
+        H, L, W = image.shape
+        # print('here1', L, H, W)
+        # swap color axis because
+        # numpy image: H x W x C
+        # torch image: C X H X W
+        # print('here2', landmarks.shape)
+        landmarks[:, 0] = landmarks[:, 0] * self.image_size // H
+        landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
+        image = image.transpose((1, 0, 2))
+        image_ = np.zeros((L, self.image_size, self.image_size))
+        for i in range(L):
+            # f = np.random.choice(fi, 1)[0]
+            # print(f)
+            image_[i] = transform.resize(image[i], (self.image_size, self.image_size))
+
+        # print('here2', image_.shape)
+        return {'image': torch.from_numpy(image_),
+                'landmarks': torch.from_numpy(landmarks)}
+
+
 class ToTensorClassifier(object):
     """Convert ndarrays in sample to Tensors."""
 
@@ -259,7 +351,7 @@ class ToTensorClassifier(object):
         classes = np.array(list(range(len(landmarks))))
         images = np.zeros(shape=(len(landmarks), 2 * self.path_size, 2 * self.path_size))
         image = image.transpose((1, 0, 2))
-        print(image.shape)
+        # print(image.shape)
         for i in range(len(classes)):
             f = np.random.choice(fi, 1)[0]
 
@@ -280,25 +372,19 @@ class ToTensorClassifier(object):
             if y >= L:
                 y = L - 1
 
-            if z <= self.path_size or z >= self.image_size - self.path_size:
-                print(i, x, y, z)
-            if x <= self.path_size or x >= self.image_size - self.path_size:
-                print(i, x, y, z)
+            ii = f(
+                transform.resize(image[y], (self.image_size, self.image_size)) + np.random.normal(0, 0.1, (
+                    self.image_size, self.image_size)))
 
-            ii = transform.resize(image[y], (self.image_size, self.image_size)) + np.random.normal(0, 0.01, (
-                self.image_size, self.image_size))
-            plt.imshow(ii)
-            plt.savefig('orig' + str(i) + '.png')
-            print(ii.shape)
             iii = ii[z - self.path_size:z + self.path_size, x - self.path_size:x + self.path_size]
+
             try:
-                images[i] = f(iii)
+                images[i] = transform.rotate(iii, np.random.randint(3))
             except:
-                print(i, x, y, z)
+                # print(i, x, y, z)
+                pass
                 # sdfiuhdsfh()
-            print(i, x, y, z)
-            plt.imshow(images[i])
-            plt.savefig('check' + str(i) + '.png')
+            # print(images[i].shape)
             # image_ = np.zeros((L, self.image_size, self.image_size))
             # for i in range(L):
             #     f = identity
@@ -310,6 +396,7 @@ class ToTensorClassifier(object):
 
             # print('here2', image_.shape)
         # fsd()
+        # print(images.shape)
         return {'image': torch.from_numpy(images),
                 'landmarks': torch.from_numpy(classes)}
 
@@ -339,7 +426,7 @@ class ToTensorTestClassifier(object):
         classes = np.array(list(range(len(landmarks))))
         images = np.zeros(shape=(len(landmarks), 2 * self.path_size, 2 * self.path_size))
         image = image.transpose((1, 0, 2))
-        print(image.shape)
+        # print(image.shape)
         for i in range(len(classes)):
             f = np.random.choice(fi, 1)[0]
 
@@ -360,25 +447,23 @@ class ToTensorTestClassifier(object):
             if y >= L:
                 y = L - 1
 
-            if z <= self.path_size or z >= self.image_size - self.path_size:
-                print(i, x, y, z)
-            if x <= self.path_size or x >= self.image_size - self.path_size:
-                print(i, x, y, z)
+            # if z <= self.path_size or z >= self.image_size - self.path_size:
+            #     print(i, x, y, z)
+            # if x <= self.path_size or x >= self.image_size - self.path_size:
+            #     print(i, x, y, z)
 
             ii = transform.resize(image[y], (self.image_size, self.image_size)) + np.random.normal(0, 0.01, (
                 self.image_size, self.image_size))
-            plt.imshow(ii)
-            plt.savefig('orig' + str(i) + '.png')
-            print(ii.shape)
             iii = ii[z - self.path_size:z + self.path_size, x - self.path_size:x + self.path_size]
             try:
                 images[i] = iii
             except:
-                print(i, x, y, z)
+
+                pass
+
+                # print(i, x, y, z)
                 # sdfiuhdsfh()
-            print(i, x, y, z)
-            plt.imshow(images[i])
-            plt.savefig('check' + str(i) + '.png')
+            # print(images[i].shape)
             # image_ = np.zeros((L, self.image_size, self.image_size))
             # for i in range(L):
             #     f = identity
@@ -390,6 +475,7 @@ class ToTensorTestClassifier(object):
 
             # print('here2', image_.shape)
         # fsd()
+        # print(images.shape)
         return {'image': torch.from_numpy(images),
                 'landmarks': torch.from_numpy(classes)}
 

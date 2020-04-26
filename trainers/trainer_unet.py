@@ -43,7 +43,7 @@ class Trainer2D:
             with self.experiment.train():
                 for i in range(len(train_loader)):
                     self.net_optimizer.zero_grad()
-                    data, indexes = train_loader.next()
+                    data, indexes,_ = train_loader.next()
                     # print(landmarks)
                     # print(landmarks.shape)
                     data, indexes = self.to_var(data), self.to_var(indexes).float()
@@ -66,7 +66,7 @@ class Trainer2D:
             with self.experiment.train():
                 for i in range(len(train_loader)):
                     self.net_optimizer.zero_grad()
-                    data, landmarks = train_loader.next()
+                    data, landmarks,_ = train_loader.next()
                     # print(landmarks)
                     # print(landmarks.shape)
                     data, landmarks = self.to_var(data), self.to_var(landmarks)
@@ -95,7 +95,7 @@ class Trainer2D:
             loss = 0
             for i in range(len(test_loader)):
                 self.net_optimizer.zero_grad()
-                data, landmarks = test_loader.next()
+                data, landmarks,_ = test_loader.next()
                 data, landmarks = self.to_var(data), self.to_var(landmarks)
                 B, L, H, W = data.size()
                 B, L, S = landmarks.size()

@@ -24,7 +24,7 @@ class Trainer2D:
         self.experiment.log_parameters(vars(config))
         self.config = config
         self.log_step = config.log_step
-        self.model = conv2d.Conv2DPatches()
+        self.model = conv2d.Conv2DPatches(image_size=config.image_size)
         print(self.model)
         self.d = get_dataloader2D(config)
         self.train_loader, self.test_loader = self.d
@@ -50,13 +50,13 @@ class Trainer2D:
             self.model = torch.load(self.pre_model_path)
         else:
             print("Starting pre-training and solving the jigsaw puzzle")
-            for epoch in range(self.epochs):
+            for epoch in range(40):
                 print("Starting epoch {}".format(epoch))
                 train_loader = iter(self.train_loader_jig)
                 with self.experiment.train():
                     for i in range(len(train_loader)):
                         self.net_optimizer.zero_grad()
-                        data, indexes = train_loader.next()
+                        data, indexes, _ = train_loader.next()
                         # print(landmarks)
                         # print(landmarks.shape)
                         data, indexes = self.to_var(data), self.to_var(indexes).float()
@@ -89,9 +89,8 @@ class Trainer2D:
                 with self.experiment.train():
                     for i in range(len(train_loader)):
                         self.net_optimizer.zero_grad()
-                        data, landmarks = train_loader.next()
+                        data, landmarks, _ = train_loader.next()
                         # print(landmarks)
-                        # print(landmarks.shape)
                         data, landmarks = self.to_var(data), self.to_var(landmarks)
                         B, L, H, W = data.size()
                         B, L, S = landmarks.size()
@@ -125,7 +124,7 @@ class Trainer2D:
             loss = 0
             for i in range(len(test_loader)):
                 self.net_optimizer.zero_grad()
-                data, landmarks = test_loader.next()
+                data, landmarks, _ = test_loader.next()
                 data, landmarks = self.to_var(data), self.to_var(landmarks)
                 B, L, H, W = data.size()
                 B, L, S = landmarks.size()

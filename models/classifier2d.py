@@ -35,7 +35,7 @@ class ConvClassifier(nn.Module):
     def forward(self, x):
         # set_trace()
         B, L, H, W = x.size()
-        # print(B, L, H, W)
+        # print(B, L, C, H, W)
         x_encoded = self.features(x.view(B * L, 1, H, W).float())
         # x = self.classifier(x.view(B, -1))
         # print('here', x_encoded.size())

@@ -45,19 +45,19 @@ class Conv2DPatches(nn.Module):
             self.point_detectors = nn.ModuleList(self.point_detectors)
         elif image_size == 100:
             self.features = nn.Sequential(OrderedDict([
-                ("conv1", nn.Conv2d(1, 16, kernel_size=11, stride=3)),
+                ("conv1", nn.Conv2d(1, 16, kernel_size=5, stride=2)),
                 ("relu1", nn.ReLU(inplace=True)),
-                ("pool1", nn.MaxPool2d(kernel_size=5, stride=3)),
-                ("norm1", nn.LocalResponseNorm(5, 1.e-4, 0.75)),
+                ("pool1", nn.MaxPool2d(kernel_size=3, stride=2)),
+                # ("norm1", nn.LocalResponseNorm(5, 1.e-4, 0.75)),
                 ("conv2", nn.Conv2d(16, 32, kernel_size=5, stride=2)),
                 ("relu2", nn.ReLU(inplace=True)),
-                ("pool2", nn.MaxPool2d(kernel_size=5, stride=2)),
-                ("norm2", nn.LocalResponseNorm(5, 1.e-4, 0.75)),
+                ("pool2", nn.MaxPool2d(kernel_size=5, stride=1)),
+                # ("norm2", nn.LocalResponseNorm(5, 1.e-4, 0.75)),
                 ("conv3", nn.Conv2d(32, 16, kernel_size=5)),
                 ("relu3", nn.ReLU(inplace=True)),
             ]))
-            self.fc_size = 144
-
+            self.fc_size = 64
+            jigsaw_classes = 25
             self.jigsaw_classifier = nn.Sequential(
                 nn.Linear(self.fc_size, jigsaw_classes),
             )

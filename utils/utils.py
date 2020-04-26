@@ -1,17 +1,19 @@
 import os
 from glob import glob
 
+root = 'DeepLearning'
+
 
 def fix_path():
     # os.chdir('/Users/imad/PycharmProjects/')
     current = os.getcwd()
     # print(os.getcwd())
-    if 'HIP-PROJECT' in current:
-        fixed_path = os.path.join(current.split('HIP-PROJECT')[0], 'HIP-PROJECT')
-        # print(fixed_path)
+    if root in current:
+        fixed_path = os.path.join(current.split(root)[0], root)
+        print(fixed_path)
         os.chdir(fixed_path)
-    elif os.path.isdir(os.path.join(current, 'HIP-PROJECT')):
-        fixed_path = os.path.join(current, 'HIP-PROJECT')
+    elif os.path.isdir(os.path.join(current, root)):
+        fixed_path = os.path.join(current, root)
         # print(fixed_path)
         os.chdir(fixed_path)
     else:
@@ -24,8 +26,8 @@ def fix_path():
         fixed_path = current
         for p in potentials:
             for path in p:
-                if 'HIP-PROJECT' in path:
-                    fixed_path = os.path.join(path.split('HIP-PROJECT')[0], 'HIP-PROJECT')
+                if root in path:
+                    fixed_path = os.path.join(path.split(root)[0], root)
                     # print(fixed_path)
                     os.chdir(fixed_path)
                     return fixed_path

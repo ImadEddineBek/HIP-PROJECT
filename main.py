@@ -28,8 +28,9 @@ def main(config):
         solver.train()
     elif config.mode == '2D_classification':
         solver = Trainer2DClassifier(config)
-        solver.pre_train()
+        # solver.pre_train()
         solver.train()
+        # solver.predict()
 
 
 if __name__ == '__main__':
@@ -45,20 +46,20 @@ if __name__ == '__main__':
     # parser.add_argument('--beta_p', type=float, default=4)
 
     # training hyper-parameters
-    parser.add_argument('--epochs', type=int, default=100)
-    parser.add_argument('--batch_size', type=int, default=1)
-    parser.add_argument('--num_workers', type=int, default=1)
-    parser.add_argument('--lr', type=float, default=0.03)
+    parser.add_argument('--epochs', type=int, default=9000)
+    parser.add_argument('--batch_size', type=int, default=20)
+    parser.add_argument('--num_workers', type=int, default=6)
+    parser.add_argument('--lr', type=float, default=0.01)
     parser.add_argument('--lr_c', type=float, default=0.3)
 
     # misc
-    parser.add_argument('--mode', type=str, default='2D_classification')
+    parser.add_argument('--mode', type=str, default='2D_regression')
     parser.add_argument('--model_path', type=str, default='./models')
-    parser.add_argument('--data_csv_train', type=str, default='./data/data.csv')
-    parser.add_argument('--data_csv_test', type=str, default='./data/data.csv')
+    parser.add_argument('--data_csv_train', type=str, default='./data/data_train.csv')
+    parser.add_argument('--data_csv_test', type=str, default='./data/data_test.csv')
     parser.add_argument('--data_csv_path', type=str, default='./data/data.csv')
     parser.add_argument('--data_root', type=str, default='./data/')
-    parser.add_argument('--log_step', type=int, default=10)
+    parser.add_argument('--log_step', type=int, default=100)
 
     config = parser.parse_args()
     print(config)
