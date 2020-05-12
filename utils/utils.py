@@ -1,5 +1,6 @@
 import os
 from glob import glob
+import numpy as np
 
 root = 'DeepLearning'
 
@@ -32,3 +33,13 @@ def fix_path():
                     os.chdir(fixed_path)
                     return fixed_path
     return fixed_path
+
+
+def get_distances(landmarks):
+    distances = np.zeros((len(landmarks), len(landmarks)))
+    for i in range(len(landmarks)):
+        for j in range(len(landmarks)):
+            distances[i, j] = np.linalg.norm(landmarks[i] - landmarks[j])
+    return distances
+
+

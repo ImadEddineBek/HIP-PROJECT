@@ -50,7 +50,7 @@ class Trainer2D:
             self.model = torch.load(self.pre_model_path)
         else:
             print("Starting pre-training and solving the jigsaw puzzle")
-            for epoch in range(40):
+            for epoch in range(0):
                 print("Starting epoch {}".format(epoch))
                 train_loader = iter(self.train_loader_jig)
                 with self.experiment.train():
@@ -62,6 +62,8 @@ class Trainer2D:
                         data, indexes = self.to_var(data), self.to_var(indexes).float()
                         B, L, H, W = data.size()
                         B, L, S = indexes.size()
+                        print(data.size())
+                        print(indexes.size())
 
                         jig_out, _ = self.model(data, True)
                         loss = self.criterion_d(jig_out, indexes.view(-1, S))

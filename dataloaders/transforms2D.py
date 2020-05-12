@@ -231,7 +231,7 @@ class ToTensor(object):
         for i in range(L):
             f = np.random.choice(fi, 1)[0]
             # print(f)
-            image_[i] = f(transform.resize(image[i], (self.image_size, self.image_size))) + np.random.normal(0, 0.1, (
+            image_[i] = f(transform.resize(image[i], (self.image_size, self.image_size))) + np.random.normal(0, 0.01, (
                 self.image_size, self.image_size))
             image_[i][image_[i] < 0] = 0.
             image_[i][image_[i] > 1] = 1.
@@ -289,7 +289,7 @@ class ToTensor_(object):
         for i in range(L):
             f = np.random.choice(fi, 1)[0]
             # print(f)
-            image_[i] = f(transform.resize(image[i], (self.image_size, self.image_size))) + np.random.normal(0, 0.1, (
+            image_[i] = f(transform.resize(image[i], (self.image_size, self.image_size))) + np.random.normal(0, 0.01, (
                 self.image_size, self.image_size))
             image_[i][image_[i] < 0] = 0.
             image_[i][image_[i] > 1] = 1.
@@ -373,7 +373,7 @@ class ToTensorClassifier(object):
                 y = L - 1
 
             ii = f(
-                transform.resize(image[y], (self.image_size, self.image_size)) + np.random.normal(0, 0.1, (
+                transform.resize(image[y], (self.image_size, self.image_size)) + np.random.normal(0, 0.01, (
                     self.image_size, self.image_size)))
 
             iii = ii[z - self.path_size:z + self.path_size, x - self.path_size:x + self.path_size]

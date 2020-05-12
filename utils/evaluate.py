@@ -29,7 +29,8 @@ class Evaluator:
         losses = None
         loss = 0
         for _ in range(len(test_loader)):
-            data, landmarks, _ = test_loader.next()
+            data, landmarks, mri_sequences = test_loader.next()
+            print(mri_sequences)
             data, landmarks = self.trainer.to_var(data), self.trainer.to_var(landmarks)
             if len(data.size()) == 4:
                 B, L, H, W = data.size()

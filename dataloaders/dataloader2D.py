@@ -62,7 +62,7 @@ class HipLandmarksDataset(Dataset):
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
             idx = idx.tolist()
-
+        # print(self.landmarks_frame['images'][idx])
         img_name = os.path.join(self.root_dir,
                                 self.landmarks_frame['images'][idx])
         # y = self.landmarks_frame['right_head_y'][idx]
