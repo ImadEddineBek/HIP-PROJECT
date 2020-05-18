@@ -1,49 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="da35d3ab-f4d8-45b9-bd93-7ad1fdb1bdf2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/data/data_test.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/data_train.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/landmark_adjuctment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/results.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/HIP-PROJECT.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/HIP-PROJECT.iml" afterDir="false" />
+    <list default="true" id="da35d3ab-f4d8-45b9-bd93-7ad1fdb1bdf2" name="Default Changelist" comment="Updated RL">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/19_0.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/19_1.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/19_2.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/22_1.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/22_2.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/23_0.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/23_3.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/24_2.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/25_1.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/25_3.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/26_2.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/26_3.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/26_4.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/28_2.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/28_3.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/28_4.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/29_2.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/29_3.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/29_4.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/30_2.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/30_3.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/30_4.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/33_2.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/33_3.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data/33_4.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/dataloaders/dataloader2D.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataloaders/dataloader2D.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloaders/transforms2D.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataloaders/transforms2D.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/classifier2d.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/classifier2d.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/conv2d.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/conv2d.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reinforcement_learning/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/reinforcement_learning/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trainers/trainer2D.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainers/trainer2D.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainers/trainer_classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainers/trainer_classifier.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainers/trainer_rl.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainers/trainer_rl.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trainers/trainer_unet.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainers/trainer_unet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/evaluate.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/evaluate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/utils.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,46 +33,22 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/results.csv">
-          <provider selected="true" editor-type-id="csv-text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="28" lean-forward="true" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
-            </state>
-          </provider>
-          <provider editor-type-id="csv-table-editor">
-            <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/classifier2d.py">
+        <entry file="file://$PROJECT_DIR$/trainers/trainer_rl.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-204">
-              <caret column="35" lean-forward="true" selection-start-column="35" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/trainers/trainer2D.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="102" selection-start-line="102" selection-end-line="102" />
+            <state relative-caret-position="158">
+              <caret line="127" column="46" selection-start-line="127" selection-start-column="46" selection-end-line="127" selection-end-column="46" />
               <folding>
-                <element signature="e#0#12#0" expanded="true" />
+                <element signature="e#0#31#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/utils/evaluate.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/-1838850474/-440584852/torch/nn/modules/module.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="790">
-              <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="166">
+              <caret line="531" selection-start-line="531" selection-end-line="531" />
             </state>
           </provider>
         </entry>
@@ -115,17 +56,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dataloaders/dataloader2D.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="253" column="19" lean-forward="true" selection-start-line="253" selection-start-column="19" selection-end-line="253" selection-end-column="19" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-                <element signature="e#534#5594#0" />
-                <element signature="e#5827#6950#0" />
-                <element signature="e#6749#7699#0" />
-                <element signature="e#7737#8689#0" />
-                <element signature="e#8736#9738#0" />
-                <element signature="e#9781#10723#0" />
-              </folding>
+            <state relative-caret-position="90">
+              <caret line="6" column="34" lean-forward="true" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/trainers/trainer2D.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="5" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -133,8 +74,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="55" column="66" selection-start-line="55" selection-start-column="66" selection-end-line="55" selection-end-column="66" />
+            <state relative-caret-position="360">
+              <caret line="24" column="44" lean-forward="true" selection-start-line="24" selection-start-column="44" selection-end-line="24" selection-end-column="44" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -143,48 +84,42 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/data_test.csv">
-          <provider selected="true" editor-type-id="csv-text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="72" selection-start-line="1" selection-start-column="72" selection-end-line="1" selection-end-column="72" />
-            </state>
-          </provider>
-          <provider editor-type-id="csv-table-editor">
-            <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/data_train.csv">
-          <provider selected="true" editor-type-id="csv-text-editor">
-            <state relative-caret-position="333">
-              <caret line="70" column="137" lean-forward="true" selection-start-line="70" selection-start-column="137" selection-end-line="70" selection-end-column="137" />
-            </state>
-          </provider>
-          <provider editor-type-id="csv-table-editor">
-            <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/data.csv">
-          <provider selected="true" editor-type-id="csv-text-editor">
-            <state relative-caret-position="410">
-              <caret line="86" column="135" selection-start-line="86" selection-start-column="135" selection-end-line="86" selection-end-column="135" />
-            </state>
-          </provider>
-          <provider editor-type-id="csv-table-editor">
-            <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/utils.py">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="13" column="28" lean-forward="true" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+            <state relative-caret-position="420">
+              <caret line="28" column="27" lean-forward="true" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/reinforcement_learning/model.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="173">
+              <caret line="110" column="26" selection-start-line="110" selection-start-column="26" selection-end-line="110" selection-end-column="26" />
               <folding>
-                <element signature="e#0#9#0" expanded="true" />
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/conv2d.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1215">
+              <caret line="86" column="29" lean-forward="true" selection-start-line="86" selection-start-column="29" selection-end-line="86" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/reinforcement_learning/landmark_detection_envirenment.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="559">
+              <caret line="148" column="65" selection-start-line="148" selection-start-column="55" selection-end-line="148" selection-end-column="65" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -195,27 +130,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Jupyter Notebook" />
         <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>y_slices</find>
-      <find>print(y</find>
-      <find>ac</find>
-      <find>epoch 10</find>
-      <find>10</find>
-      <find>20</find>
-      <find>starting</find>
-      <find>s</find>
-      <find>,15,</find>
-      <find>$USER_HOME$/Downloads/Documents/hip/</find>
-      <find>data2</find>
-      <find>accuracy</find>
-      <find>plt.save</find>
-      <find>$USER_HOME$/Downloads/Documents/hip/data2</find>
-      <find>print</find>
       <find>epoch</find>
       <find>ep</find>
       <find>accura</find>
@@ -231,6 +152,21 @@
       <find>26_2</find>
       <find>loader.next()</find>
       <find>data, landmarks</find>
+      <find>y</find>
+      <find>train_loader</find>
+      <find>80,58</find>
+      <find>,29</find>
+      <find>0, 0</find>
+      <find>data/44_4.npy</find>
+      <find>0</find>
+      <find>new_x, new_y = self.current</find>
+      <find>self.current[i]</find>
+      <find>pred = online_net(states).squeeze(1)</find>
+      <find>to(</find>
+      <find>episode</find>
+      <find>'</find>
+      <find>distance: 6</find>
+      <find>data.processed</find>
     </findStrings>
     <replaceStrings>
       <replace>rught</replace>
@@ -241,6 +177,8 @@
       <replace>self.path_size</replace>
       <replace>data</replace>
       <replace>root</replace>
+      <replace>&quot;</replace>
+      <replace>dataloaders.dataloader2D</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -253,24 +191,35 @@
         <option value="$PROJECT_DIR$/models/conv2d.py" />
         <option value="$PROJECT_DIR$/data/data_test.csv" />
         <option value="$PROJECT_DIR$/models/classifier2d.py" />
-        <option value="$PROJECT_DIR$/dataloaders/transforms2D.py" />
-        <option value="$PROJECT_DIR$/models/landmark_adjuctment.py" />
-        <option value="$PROJECT_DIR$/results.csv" />
-        <option value="$PROJECT_DIR$/utils/utils.py" />
         <option value="$PROJECT_DIR$/data/data_train.csv" />
-        <option value="$PROJECT_DIR$/data/data.csv" />
         <option value="$PROJECT_DIR$/trainers/trainer_unet.py" />
         <option value="$PROJECT_DIR$/trainers/trainer_classifier.py" />
+        <option value="$PROJECT_DIR$/utils/evaluate.py" />
+        <option value="$PROJECT_DIR$/data/data.csv" />
+        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/reinforcement_learning/train.py" />
+        <option value="$PROJECT_DIR$/reinforcement_learning/config.py" />
+        <option value="$PROJECT_DIR$/utils/utils.py" />
+        <option value="$PROJECT_DIR$/trainers/detectron2.py" />
+        <option value="$PROJECT_DIR$/trainers/detectron2.ipynb" />
+        <option value="$PROJECT_DIR$/dataloaders/transforms2D.py" />
+        <option value="$PROJECT_DIR$/data.json" />
+        <option value="$PROJECT_DIR$/results.csv" />
+        <option value="$PROJECT_DIR$/models/landmark_adjuctment.py" />
+        <option value="$PROJECT_DIR$/reinforcement_learning/landmark_detection_envirenment.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/trainers/trainer2D.py" />
         <option value="$PROJECT_DIR$/dataloaders/dataloader2D.py" />
-        <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/utils/evaluate.py" />
+        <option value="$PROJECT_DIR$/trainers/trainer_rl.py" />
+        <option value="$PROJECT_DIR$/reinforcement_learning/model.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="714" />
-    <option name="height" value="900" />
+    <option name="x" value="-1920" />
+    <option name="y" value="-180" />
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -287,11 +236,6 @@
             <path>
               <item name="HIP-PROJECT" type="b2602c69:ProjectViewProjectNode" />
               <item name="HIP-PROJECT" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="HIP-PROJECT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="HIP-PROJECT" type="462c0819:PsiDirectoryNode" />
               <item name="dataloaders" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -302,12 +246,21 @@
             <path>
               <item name="HIP-PROJECT" type="b2602c69:ProjectViewProjectNode" />
               <item name="HIP-PROJECT" type="462c0819:PsiDirectoryNode" />
+              <item name="reinforcement_learning" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="HIP-PROJECT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="HIP-PROJECT" type="462c0819:PsiDirectoryNode" />
               <item name="trainers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HIP-PROJECT" type="b2602c69:ProjectViewProjectNode" />
               <item name="HIP-PROJECT" type="462c0819:PsiDirectoryNode" />
               <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="HIP-PROJECT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
@@ -324,7 +277,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/data" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/reinforcement_learning" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -333,20 +286,16 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="PyConsoleOptionsProvider">
-    <option name="myPythonConsoleState">
-      <console-settings>
-        <option name="useSoftWraps" value="true" />
-      </console-settings>
-    </option>
-  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/reinforcement_learning" />
       <recent name="$PROJECT_DIR$/data" />
       <recent name="$PROJECT_DIR$/artifacts" />
       <recent name="$PROJECT_DIR$/trainers" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/data/processed/data" />
+      <recent name="$PROJECT_DIR$/data/processed" />
       <recent name="$PROJECT_DIR$/data" />
     </key>
   </component>
@@ -397,13 +346,17 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.dataloader2D" />
+      <item itemvalue="Python.main" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
@@ -437,7 +390,13 @@
       <workItem from="1587112151249" duration="6952000" />
       <workItem from="1587379300325" duration="408000" />
       <workItem from="1587641566890" duration="810000" />
-      <workItem from="1587809439611" duration="4288000" />
+      <workItem from="1587809439611" duration="6051000" />
+      <workItem from="1587989311368" duration="7000" />
+      <workItem from="1588081177694" duration="1930000" />
+      <workItem from="1588285311249" duration="558000" />
+      <workItem from="1588680260687" duration="35541000" />
+      <workItem from="1589280545752" duration="11748000" />
+      <workItem from="1589797983750" duration="2265000" />
     </task>
     <task id="LOCAL-00001" summary="Evaluator">
       <created>1585833298399</created>
@@ -474,11 +433,32 @@
       <option name="project" value="LOCAL" />
       <updated>1586184775866</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="bug fixes">
+      <created>1587906078171</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1587906078171</updated>
+    </task>
+    <task id="LOCAL-00007" summary="bug fixes">
+      <created>1589290748961</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1589290748961</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Updated RL">
+      <created>1589800575660</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1589800575660</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="104588000" />
+    <option name="totallyTimeSpent" value="158400000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -490,32 +470,33 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="-1920" y="-180" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49879518" visible="true" weight="0.19384836" />
-      <window_info id="Structure" order="1" sideWeight="0.50120485" side_tool="true" weight="0.2753223" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4974271" visible="true" weight="0.13365282" />
+      <window_info id="Structure" order="1" sideWeight="0.5025729" side_tool="true" weight="0.1881259" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946752" weight="0.28554216" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946752" visible="true" weight="0.4821782" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32891566" />
       <window_info anchor="bottom" id="Docker" order="7" weight="0.32891566" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32891566" />
-      <window_info anchor="bottom" id="File Transfer" order="9" sideWeight="0.49815837" weight="0.32891566" />
+      <window_info anchor="bottom" id="File Transfer" order="9" sideWeight="0.49713877" weight="0.26930693" />
       <window_info anchor="bottom" id="Database Changes" order="10" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32891566" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5018416" side_tool="true" weight="0.32891566" />
-      <window_info anchor="bottom" id="Python Console" order="13" sideWeight="0.49815837" visible="true" weight="0.42289156" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5028612" side_tool="true" weight="0.42771083" />
+      <window_info anchor="bottom" id="Python Console" order="13" sideWeight="0.49713877" weight="0.42673266" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Remote Host" order="3" weight="0.18240343" />
-      <window_info anchor="right" id="SciView" order="4" weight="0.20177838" />
+      <window_info anchor="right" id="Remote Host" order="3" weight="0.3590844" />
+      <window_info anchor="right" id="SciView" order="4" weight="0.26609442" />
       <window_info anchor="right" id="Database" order="5" weight="0.32900137" />
+      <window_info anchor="right" x="0" y="0" width="310" height="677" id="Documentation" order="6" side_tool="true" visible="true" weight="0.3297568" />
     </layout>
     <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49879518" visible="true" weight="0.21316166" />
@@ -547,60 +528,20 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
     <MESSAGE value="Evaluator" />
     <MESSAGE value="Logging and model saving for unexpected bugs" />
     <MESSAGE value="Sliding conv Classifier" />
     <MESSAGE value="Bug fixes and param logging" />
     <MESSAGE value="bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fixes" />
+    <MESSAGE value="Updated RL" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated RL" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/HIP_PROJECT$main.coverage" NAME="main Coverage Results" MODIFIED="1587124477605" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HIP_PROJECT$dataloader2D.coverage" NAME="dataloader2D Coverage Results" MODIFIED="1587905686272" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dataloaders" />
+    <SUITE FILE_PATH="coverage/HIP_PROJECT$main.coverage" NAME="main Coverage Results" MODIFIED="1589801184527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/artifacts/models/.ignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/artifacts/pre_models/.ignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/-1838850474/-440584852/skimage/transform/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#48#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/-1838850474/-440584852/torch/nn/modules/normalization.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="12" column="42" lean-forward="true" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/unet_parts.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/trainers/trainer_unet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="145" lean-forward="true" selection-start-line="145" selection-end-line="145" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/-1838850474/-440584852/numpy/ma/core.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="753">
@@ -608,8 +549,135 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/classifier2d.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="35" selection-start-column="35" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/-1838850474/-440584852/matplotlib/figure.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="1567" column="8" selection-start-line="1567" selection-start-column="8" selection-end-line="1567" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/-1838850474/-440584852/matplotlib/pyplot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="1209" column="19" selection-start-line="1209" selection-start-column="19" selection-end-line="1209" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/unet_parts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="56" column="24" selection-start-line="56" selection-start-column="24" selection-end-line="56" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/unet_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/AI-LAB/lib/python3.7/site-packages/torch/tensor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="393" selection-start-line="393" selection-end-line="393" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/AI-LAB/lib/python3.7/site-packages/matplotlib/patches.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="685" column="8" selection-start-line="685" selection-start-column="8" selection-end-line="685" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/AI-LAB/lib/python3.7/site-packages/matplotlib/cbook/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="215" selection-start-line="215" selection-end-line="215" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/artifacts/predictions/img_1.png" />
+    <entry file="file://$PROJECT_DIR$/artifacts/predictions/img_0.png" />
+    <entry file="file://$PROJECT_DIR$/artifacts/predictions/img_4.png" />
+    <entry file="file://$PROJECT_DIR$/artifacts/predictions/img_8.png" />
+    <entry file="file://$PROJECT_DIR$/artifacts/predictions/img_12.png" />
+    <entry file="file://$PROJECT_DIR$/artifacts/predictions/img_16.png" />
+    <entry file="file://$PROJECT_DIR$/artifacts/predictions/img_18.png" />
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/python_stubs/1662888763/cv2/cv2/VideoWriter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="122" column="8" selection-start-line="122" selection-start-column="8" selection-end-line="122" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/trainers/trainer_unet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="145" selection-start-line="145" selection-end-line="145" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/artifacts/predictions/video_0.avi">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/AI-LAB/lib/python3.7/site-packages/matplotlib/pyplot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="1437" column="4" selection-start-line="1437" selection-start-column="4" selection-end-line="1437" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/python_stubs/-1838850474/cv2/cv2/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="791">
+          <caret line="7480" column="7" lean-forward="true" selection-start-line="7480" selection-start-column="7" selection-end-line="7480" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reinforcement_learning/memory.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/python_stubs/-1838850474/numpy/core/_multiarray_umath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="8240" column="4" selection-start-line="8240" selection-start-column="4" selection-end-line="8240" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reinforcement_learning/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/utils/data_converter.py">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reinforcement_learning/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reinforcement_learning/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/brute_force.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -618,71 +686,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="285">
-            <caret line="19" column="7" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dataloaders/transforms2D.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="358" column="15" selection-start-line="358" selection-start-column="15" selection-end-line="358" selection-end-column="15" />
-          <folding>
-            <element signature="e#18#33#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/trainers/trainer_classifier.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="184" column="41" selection-start-line="184" selection-start-column="41" selection-end-line="184" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/unet_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="23" column="32" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/conv2d.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="8" column="31" lean-forward="true" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/landmark_adjuctment.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="53" column="19" lean-forward="true" selection-start-line="53" selection-start-column="19" selection-end-line="53" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="13" column="28" lean-forward="true" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/trainers/detectron2.py" />
     <entry file="file://$PROJECT_DIR$/data/data.csv">
       <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="410">
-          <caret line="86" column="135" selection-start-line="86" selection-start-column="135" selection-end-line="86" selection-end-column="135" />
+        <state relative-caret-position="150">
+          <caret line="51" column="542" lean-forward="true" selection-start-line="51" selection-start-column="542" selection-end-line="51" selection-end-column="542" />
         </state>
       </provider>
       <provider editor-type-id="csv-table-editor">
@@ -701,71 +709,170 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data/data_train.csv">
       <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="333">
-          <caret line="70" column="137" lean-forward="true" selection-start-line="70" selection-start-column="137" selection-end-line="70" selection-end-column="137" />
+        <state relative-caret-position="121">
+          <caret line="55" column="55" selection-start-line="55" selection-start-column="55" selection-end-line="55" selection-end-column="55" />
         </state>
       </provider>
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/trainers/trainer2D.py">
+    <entry file="file://$PROJECT_DIR$/trainers/trainer_classifier.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="102" selection-start-line="102" selection-end-line="102" />
+        <state relative-caret-position="348">
+          <caret line="160" column="17" selection-start-line="160" selection-start-column="17" selection-end-line="160" selection-end-column="17" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/trainers/detectron2.ipynb">
+      <provider selected="true" editor-type-id="jupyter-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/evaluate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloaders/transforms2D.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4785">
+          <caret line="329" column="36" selection-start-line="329" selection-start-column="36" selection-end-line="329" selection-end-column="36" />
+          <folding>
+            <element signature="e#18#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/results.csv">
       <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="28" lean-forward="true" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
+        <state relative-caret-position="150">
+          <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
         </state>
       </provider>
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/classifier2d.py">
+    <entry file="file://$PROJECT_DIR$/utils/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-204">
-          <caret column="35" lean-forward="true" selection-start-column="35" selection-end-column="35" />
+        <state relative-caret-position="645">
+          <caret line="45" selection-start-line="45" selection-end-line="45" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="285">
+            <caret line="19" column="7" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/landmark_adjuctment.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="24" column="34" lean-forward="true" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/conv2d.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1215">
+          <caret line="86" column="29" lean-forward="true" selection-start-line="86" selection-start-column="29" selection-end-line="86" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reinforcement_learning/landmark_detection_envirenment.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="559">
+          <caret line="148" column="65" selection-start-line="148" selection-start-column="55" selection-end-line="148" selection-end-column="65" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/trainers/trainer2D.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="5" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="27" lean-forward="true" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/-1838850474/-440584852/comet_ml/experiment.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2640">
+          <caret line="262" column="30" lean-forward="true" selection-start-line="262" selection-start-column="30" selection-end-line="262" selection-end-column="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dataloaders/dataloader2D.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="253" column="19" lean-forward="true" selection-start-line="253" selection-start-column="19" selection-end-line="253" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-            <element signature="e#534#5594#0" />
-            <element signature="e#5827#6950#0" />
-            <element signature="e#6749#7699#0" />
-            <element signature="e#7737#8689#0" />
-            <element signature="e#8736#9738#0" />
-            <element signature="e#9781#10723#0" />
-          </folding>
+        <state relative-caret-position="90">
+          <caret line="6" column="34" lean-forward="true" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/-1838850474/-440584852/torch/nn/modules/module.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="531" selection-start-line="531" selection-end-line="531" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="55" column="66" selection-start-line="55" selection-start-column="66" selection-end-line="55" selection-end-column="66" />
+        <state relative-caret-position="360">
+          <caret line="24" column="44" lean-forward="true" selection-start-line="24" selection-start-column="44" selection-end-line="24" selection-end-column="44" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/evaluate.py">
+    <entry file="file://$PROJECT_DIR$/trainers/trainer_rl.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="790">
-          <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
+        <state relative-caret-position="158">
+          <caret line="127" column="46" selection-start-line="127" selection-start-column="46" selection-end-line="127" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reinforcement_learning/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="110" column="26" selection-start-line="110" selection-start-column="26" selection-end-line="110" selection-end-column="26" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>

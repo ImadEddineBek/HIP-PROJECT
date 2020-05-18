@@ -1,7 +1,7 @@
 from comet_ml import Experiment
 import numpy as np
 from torch.autograd import Variable
-from data.processed import get_dataloader2D
+from dataloaders.dataloader2D import get_dataloader2D
 from reinforcement_learning.landmark_detection_envirenment import LandmarkEnv
 from reinforcement_learning.config import initial_exploration, batch_size, update_target, log_interval, device, \
     replay_memory_capacity, lr, N_LANDMARKS, HEIGHT, WIDTH
@@ -11,12 +11,12 @@ from reinforcement_learning.model import QNet
 from reinforcement_learning.memory import Memory
 
 
-def get_action(state, target_net, epsilon, env):
+def get_action(state, target_net, epsilon, env, i):
     state = state.view(-1, 1, WIDTH, HEIGHT).to(device)
     if np.random.rand() <= epsilon:
         return env.action_space.sample()
     else:
-        return target_net.get_action(state)
+        return target_net.get_action(state, i)
 
 
 def update_target_model(online_net, target_net):
@@ -26,8 +26,8 @@ def update_target_model(online_net, target_net):
 
 class TrainerRL:
     def __init__(self, config):
-        self.experiment = Experiment(api_key="CQ4yEzhJorcxul2hHE5gxVNGu", project_name="HIP")
-        self.experiment.log_parameters(vars(config))
+        # self.experiment = Experiment(api_key="CQ4yEzhJorcxul2hHE5gxVNGu", project_name="HIP")
+        # self.experiment.log_parameters(vars(config))
         self.config = config
         self.train_loader, self.test_loader = get_dataloader2D(config)
 
@@ -95,7 +95,7 @@ class TrainerRL:
                     steps += 1
                     actions = []
                     for i in range(N_LANDMARKS):
-                        actions.append(get_action(state[i], self.target_net[i], epsilon, self.env))
+                        actions.append(get_action(state, self.target_net, epsilon, self.env, i))
 
                     next_state, reward, done, _ = self.env.step(actions)
                     # print(next_state.shape)

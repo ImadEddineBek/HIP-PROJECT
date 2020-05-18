@@ -6,7 +6,7 @@ import os
 import torch.nn as nn
 from torch import optim
 from torch.autograd import Variable
-from data.processed import get_dataloader2D, get_dataloader2DJigSaw
+from dataloaders.dataloader2D import get_dataloader2D, get_dataloader2DJigSaw
 from models import conv2d
 from utils.evaluate import Evaluator
 

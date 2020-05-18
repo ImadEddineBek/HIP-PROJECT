@@ -9,6 +9,7 @@ from torchvision import transforms
 # Ignore warnings
 import warnings
 
+from dataloaders.transforms2D import *
 from utils.utils import fix_path
 
 warnings.filterwarnings("ignore")

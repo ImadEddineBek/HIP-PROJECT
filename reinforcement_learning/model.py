@@ -86,6 +86,7 @@ class QNet(nn.Module):
     def forward(self, x):
         # print("x", x.size())
         B, L, H, W = x.size()
+        print(B, L, H, W)
         # X batch-size, number of landmakrs, 1, H, W
         x = F.relu(self.bn1(self.conv1(x.view(B * L, 1, H, W))))
         x = F.relu(self.bn2(self.conv2(x)))
@@ -107,13 +108,17 @@ class QNet(nn.Module):
     # TODO
     @classmethod
     def train_model(cls, online_net, target_net, optimizer, batch):
-        # print(device,batch.state.size())
-        states = torch.stack(list(batch.state))
-        states = states.view(-1, 1, online_net.h, online_net.w).to(device)
-        next_states = torch.stack(batch.next_state).view(-1, 1, online_net.h, online_net.w).to(device)
+        print(device, len(batch.state), batch.state[0].size())
+        states = torch.stack(list(batch.state)).to(device)
+        print(states.size())
+        next_states = torch.stack(batch.next_state).to(device)
+        print(next_states.size())
         actions = torch.Tensor(batch.action).float().to(device)
+        print(actions.size())
         rewards = torch.Tensor(batch.reward).to(device)
+        print(rewards.size())
         masks = torch.Tensor(batch.mask).to(device)
+        print(masks.size())
 
         pred = online_net(states).squeeze(1)
         next_pred = target_net(next_states).squeeze(1)
