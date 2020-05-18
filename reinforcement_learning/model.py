@@ -86,15 +86,15 @@ class QNet(nn.Module):
     def forward(self, x):
         # print("x", x.size())
         B, L, H, W = x.size()
-        print(B, L, H, W)
         # X batch-size, number of landmakrs, 1, H, W
         x = F.relu(self.bn1(self.conv1(x.view(B * L, 1, H, W))))
         x = F.relu(self.bn2(self.conv2(x)))
         x = F.relu(self.bn3(self.conv3(x)))
         x = F.relu(self.bn4(self.conv4(x)))
         # print("x", x.size())
+        BL, C, H, W = x.size()
+        x = x.view(B, L, C, H, W)
         B, L, C, H, W = x.size()
-
         detected_points = torch.zeros([B, L, self.num_outputs], dtype=torch.float32)
         if torch.cuda.is_available():
             detected_points = detected_points.cuda()
@@ -105,27 +105,26 @@ class QNet(nn.Module):
         # x_encoded = self.features(x.view(B * L, 1, H, W).float())
         return detected_points
 
-    # TODO
     @classmethod
     def train_model(cls, online_net, target_net, optimizer, batch):
-        print(device, len(batch.state), batch.state[0].size())
+        # print(device, len(batch.state), batch.state[0].size())
         states = torch.stack(list(batch.state)).to(device)
-        print(states.size())
+        # print(states.size())
         next_states = torch.stack(batch.next_state).to(device)
-        print(next_states.size())
-        actions = torch.Tensor(batch.action).float().to(device)
-        print(actions.size())
-        rewards = torch.Tensor(batch.reward).to(device)
-        print(rewards.size())
-        masks = torch.Tensor(batch.mask).to(device)
-        print(masks.size())
+        # print(next_states.size())
+        actions = torch.Tensor(batch.action).float().to(device).squeeze(1)
+        # print(actions.size())
+        rewards = torch.Tensor(batch.reward).to(device).squeeze(1)
+        # print(rewards.size())
+        masks = torch.Tensor(batch.mask).to(device).squeeze(1)
+        # print(masks.size())
 
         pred = online_net(states).squeeze(1)
         next_pred = target_net(next_states).squeeze(1)
-
-        pred = torch.sum(pred.mul(actions), dim=1)
-
-        target = rewards + masks * gamma * next_pred.max(1)[0]
+        # print(next_pred.size())
+        pred = torch.sum(pred.mul(actions), dim=2)
+        # print(rewards.size(), masks.size(), next_pred.max(2)[0].size())
+        target = rewards + masks * gamma * next_pred.max(2)[0]
 
         loss = F.mse_loss(pred, target.detach())
         optimizer.zero_grad()
@@ -135,6 +134,8 @@ class QNet(nn.Module):
         return loss
 
     def get_action(self, input, i):
-        qvalue = self.forward(input)[:, i, :]
+        L, B, H, W = input.size()
+        qvalue = self.forward(input.view(B, L, H, W))
+        qvalue = qvalue[:, i, :]
         _, action = torch.max(qvalue, 1)
         return action.cpu().numpy()[0]

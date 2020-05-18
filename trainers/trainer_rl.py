@@ -120,7 +120,7 @@ class TrainerRL:
                         epsilon -= 0.05
                         if steps % 1000:
                             randomness += 1
-                        randomness = min(randomness, 5)
+                        randomness = randomness % 10
                         epsilon = max(epsilon, 0.1)
                         for i in range(N_LANDMARKS):
                             batch = self.memory.sample(batch_size)
@@ -128,7 +128,7 @@ class TrainerRL:
                             loss = QNet.train_model(self.online_net, self.target_net, self.optimizer, batch)
 
                             if steps % update_target == 0:
-                                update_target_model(self.online_net[i], self.target_net)
+                                update_target_model(self.online_net, self.target_net)
 
                 # score = score if score == 500.0 else score + 1
                 # running_score = 0.99 * running_score + 0.01 * score
