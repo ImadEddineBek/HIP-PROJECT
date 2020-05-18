@@ -38,7 +38,7 @@ class ConvClassifier(nn.Module):
         # print(B, L, C, H, W)
         x_encoded = self.features(x.view(B * L, 1, H, W).float())
         # x = self.classifier(x.view(B, -1))
-        # print('here', x_encoded.size())
+        # print("here", x_encoded.size())
         detected_points = self.point_detectors(x_encoded.view(B * L, -1)).view(B, L, -1)
         # print(detected_points.size())
         return detected_points

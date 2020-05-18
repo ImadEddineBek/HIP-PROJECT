@@ -1,20 +1,6 @@
 import torch
-import sys
 
-from comet_ml import Experiment
-import imageio as imageio
-import matplotlib.pyplot as plt
 import numpy as np
-import os
-import pandas as pd
-import skimage
-import torch.nn as nn
-from termcolor import colored
-from torch import optim
-from torch.autograd import Variable
-import torch.nn.functional as F
-from dataloaders.dataloader2D import get_dataloader2D, get_dataloader2DJigSaw
-from models import conv2d
 
 
 class Evaluator:
@@ -77,9 +63,9 @@ class Evaluator:
 
         l1_means, l1_stds, l1_mins, l1_maxs = process_loss(l1)
 
-        self.trainer.experiment.log_metric('mean error', l1_means[0])
-        print('\t\t means, stds, mins, maxes')
+        self.trainer.experiment.log_metric("mean error", l1_means[0])
+        print("\t\t means, stds, mins, maxes")
         for i in range(len(l1_means)):
-            print('%s: %.2f, %.2f, %.2f, %.2f' % (
+            print("%s: %.2f, %.2f, %.2f, %.2f" % (
                 self.loader.dataset.idx_to_landmark[i], l1_means[i], l1_stds[i], l1_mins[i], l1_maxs[i]))
         # print(self.loader.idx_to_landmark)

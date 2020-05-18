@@ -1,25 +1,17 @@
 import torch
-import sys
 
 from comet_ml import Experiment
-import imageio as imageio
 import matplotlib.pyplot as plt
-import numpy as np
-import os
-import pandas as pd
-import skimage
 import torch.nn as nn
-from termcolor import colored
 from torch import optim
 from torch.autograd import Variable
-import torch.nn.functional as F
-from dataloaders.dataloader2D import get_dataloader2D, get_dataloader2DJigSaw
+from data.processed import get_dataloader2D, get_dataloader2DJigSaw
 from models import conv2d
 
 
 class Trainer2D:
     def __init__(self, config):
-        self.experiment = Experiment(api_key='CQ4yEzhJorcxul2hHE5gxVNGu', project_name='HIP')
+        self.experiment = Experiment(api_key="CQ4yEzhJorcxul2hHE5gxVNGu", project_name="HIP")
         self.config = config
         self.model = conv2d.Conv2DPatches()
         print(self.model)
@@ -55,8 +47,8 @@ class Trainer2D:
                     loss.backward()
                     self.net_optimizer.step()
                     # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
-                    self.experiment.log_metric('pre-loss', loss.item())
-                    print('loss: {}'.format(loss.item()))
+                    self.experiment.log_metric("pre-loss", loss.item())
+                    print("loss: {}".format(loss.item()))
 
     def train(self):
         print("Starting training")
@@ -83,8 +75,8 @@ class Trainer2D:
                     loss.backward()
                     self.net_optimizer.step()
                     # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
-                    self.experiment.log_metric('loss', loss.item())
-                    print('loss: {}'.format(loss.item()))
+                    self.experiment.log_metric("loss", loss.item())
+                    print("loss: {}".format(loss.item()))
             with self.experiment.test():
                 self.evaluate()
         self.experiment.end()
@@ -108,7 +100,7 @@ class Trainer2D:
                 landmarks = landmarks.float() / 350.
                 loss += self.criterion_d(detected_points, landmarks[:, :, [0, 2]]).item()
                 self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
-            self.experiment.log_metric('loss', loss / len(test_loader))
+            self.experiment.log_metric("loss", loss / len(test_loader))
 
     def plots(self, slices, real, predicted):
         figure, axes = plt.subplots(nrows=4, ncols=4, figsize=(15, 15))
@@ -124,12 +116,12 @@ class Trainer2D:
             for j in range(4):
                 axes[i, j].imshow(slices[s])
                 x, z = real[s]
-                axes[i, j].scatter(x, z, color='red')
+                axes[i, j].scatter(x, z, color="red")
                 x, z = predicted[s]
-                axes[i, j].scatter(x, z, color='blue')
+                axes[i, j].scatter(x, z, color="blue")
                 s += 1
         self.experiment.log_figure(figure=plt)
-        plt.savefig('artifacts/predictions/img.png')
+        plt.savefig("artifacts/predictions/img.png")
         plt.show()
 
     def to_var(self, x):

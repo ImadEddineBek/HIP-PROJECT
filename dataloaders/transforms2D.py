@@ -119,7 +119,7 @@ class RandomCrop(object):
             self.output_size = output_size
 
     def __call__(self, sample):
-        image, landmarks = sample['image'], sample['landmarks']
+        image, landmarks = sample["image"], sample["landmarks"]
 
         h, w = image.shape[:2]
         new_h, new_w = self.output_size
@@ -132,7 +132,7 @@ class RandomCrop(object):
 
         landmarks = landmarks - [left, top]
 
-        return {'image': image, 'landmarks': landmarks}
+        return {"image": image, "landmarks": landmarks}
 
 
 class ToTensorJigsaw(object):
@@ -142,13 +142,13 @@ class ToTensorJigsaw(object):
         self.image_size = image_size
 
     def __call__(self, sample):
-        image, indexes = sample['image'], sample['indexes']
+        image, indexes = sample["image"], sample["indexes"]
         H, L, W = image.shape
-        # print('here1', L, H, W)
+        # print("here1", L, H, W)
         # swap color axis because
         # numpy image: H x W x C
         # torch image: C X H X W
-        # print('here2', landmarks.shape)
+        # print("here2", landmarks.shape)
         image = image.transpose((1, 0, 2))
         image_ = np.zeros((L, self.image_size, self.image_size))
         if self.image_size == 100:
@@ -169,8 +169,8 @@ class ToTensorJigsaw(object):
                 divder = 100
             image_[i][image_[i] < 0] = 0.
             image_[i][image_[i] > 1] = 1.
-        return {'image': torch.from_numpy(image_),
-                'indexes': torch.from_numpy(indexes / divder)}
+        return {"image": torch.from_numpy(image_),
+                "indexes": torch.from_numpy(indexes / divder)}
 
 
 class ToTensorJigsawTest(object):
@@ -180,13 +180,13 @@ class ToTensorJigsawTest(object):
         self.image_size = image_size
 
     def __call__(self, sample):
-        image, indexes = sample['image'], sample['indexes']
+        image, indexes = sample["image"], sample["indexes"]
         H, L, W = image.shape
-        # print('here1', L, H, W)
+        # print("here1", L, H, W)
         # swap color axis because
         # numpy image: H x W x C
         # torch image: C X H X W
-        # print('here2', landmarks.shape)
+        # print("here2", landmarks.shape)
         image = image.transpose((1, 0, 2))
         image_ = np.zeros((L, self.image_size, self.image_size))
         if self.image_size == 100:
@@ -206,8 +206,8 @@ class ToTensorJigsawTest(object):
             image_[i][image_[i] < 0] = 0.
             image_[i][image_[i] > 1] = 1.
 
-        return {'image': torch.from_numpy(image_),
-                'indexes': torch.from_numpy(indexes / divder)}
+        return {"image": torch.from_numpy(image_),
+                "indexes": torch.from_numpy(indexes / divder)}
 
 
 class ToTensor(object):
@@ -217,13 +217,13 @@ class ToTensor(object):
         self.image_size = image_size
 
     def __call__(self, sample):
-        image, landmarks = sample['image'], sample['landmarks']
+        image, landmarks = sample["image"], sample["landmarks"]
         H, L, W = image.shape
-        # print('here1', L, H, W)
+        # print("here1", L, H, W)
         # swap color axis because
         # numpy image: H x W x C
         # torch image: C X H X W
-        # print('here2', landmarks.shape)
+        # print("here2", landmarks.shape)
         landmarks[:, 0] = landmarks[:, 0] * self.image_size // H
         landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
         image = image.transpose((1, 0, 2))
@@ -235,9 +235,9 @@ class ToTensor(object):
                 self.image_size, self.image_size))
             image_[i][image_[i] < 0] = 0.
             image_[i][image_[i] > 1] = 1.
-        # print('here2', image_.shape)
-        return {'image': torch.from_numpy(image_),
-                'landmarks': torch.from_numpy(landmarks)}
+        # print("here2", image_.shape)
+        return {"image": torch.from_numpy(image_),
+                "landmarks": torch.from_numpy(landmarks)}
 
 
 class ToTensorTest(object):
@@ -247,13 +247,13 @@ class ToTensorTest(object):
         self.image_size = image_size
 
     def __call__(self, sample):
-        image, landmarks = sample['image'], sample['landmarks']
+        image, landmarks = sample["image"], sample["landmarks"]
         H, L, W = image.shape
-        # print('here1', L, H, W)
+        # print("here1", L, H, W)
         # swap color axis because
         # numpy image: H x W x C
         # torch image: C X H X W
-        # print('here2', landmarks.shape)
+        # print("here2", landmarks.shape)
         landmarks[:, 0] = landmarks[:, 0] * self.image_size // H
         landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
         image = image.transpose((1, 0, 2))
@@ -263,9 +263,9 @@ class ToTensorTest(object):
             # print(f)
             image_[i] = transform.resize(image[i], (self.image_size, self.image_size))
 
-        # print('here2', image_.shape)
-        return {'image': torch.from_numpy(image_),
-                'landmarks': torch.from_numpy(landmarks)}
+        # print("here2", image_.shape)
+        return {"image": torch.from_numpy(image_),
+                "landmarks": torch.from_numpy(landmarks)}
 
 
 class ToTensor_(object):
@@ -275,13 +275,13 @@ class ToTensor_(object):
         self.image_size = image_size
 
     def __call__(self, sample):
-        image, landmarks = sample['image'], sample['landmarks']
+        image, landmarks = sample["image"], sample["landmarks"]
         H, L, W = image.shape
-        # print('here1', L, H, W)
+        # print("here1", L, H, W)
         # swap color axis because
         # numpy image: H x W x C
         # torch image: C X H X W
-        # print('here2', landmarks.shape)
+        # print("here2", landmarks.shape)
         landmarks[:, 0] = landmarks[:, 0] * self.image_size // H
         landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
         image = image.transpose((1, 0, 2))
@@ -293,9 +293,9 @@ class ToTensor_(object):
                 self.image_size, self.image_size))
             image_[i][image_[i] < 0] = 0.
             image_[i][image_[i] > 1] = 1.
-        # print('here2', image_.shape)
-        return {'image': torch.from_numpy(image_),
-                'landmarks': torch.from_numpy(landmarks)}
+        # print("here2", image_.shape)
+        return {"image": torch.from_numpy(image_),
+                "landmarks": torch.from_numpy(landmarks)}
 
 
 class ToTensorTest_(object):
@@ -305,13 +305,13 @@ class ToTensorTest_(object):
         self.image_size = image_size
 
     def __call__(self, sample):
-        image, landmarks = sample['image'], sample['landmarks']
-        H, L, W = image.shape
-        # print('here1', L, H, W)
+        image, landmarks = sample["image"], sample["landmarks"]
+        H, L, W = d.shape
+        # print("here1", L, H, W)
         # swap color axis because
         # numpy image: H x W x C
         # torch image: C X H X W
-        # print('here2', landmarks.shape)
+        # print("here2", landmarks.shape)
         landmarks[:, 0] = landmarks[:, 0] * self.image_size // H
         landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
         image = image.transpose((1, 0, 2))
@@ -321,9 +321,9 @@ class ToTensorTest_(object):
             # print(f)
             image_[i] = transform.resize(image[i], (self.image_size, self.image_size))
 
-        # print('here2', image_.shape)
-        return {'image': torch.from_numpy(image_),
-                'landmarks': torch.from_numpy(landmarks)}
+        # print("here2", image_.shape)
+        return {"image": torch.from_numpy(image_),
+                "landmarks": torch.from_numpy(landmarks)}
 
 
 class ToTensorClassifier(object):
@@ -334,13 +334,13 @@ class ToTensorClassifier(object):
         self.path_size = path_size
 
     def __call__(self, sample):
-        image, landmarks = sample['image'], sample['landmarks']
+        image, landmarks = sample["image"], sample["landmarks"]
         H, L, W = image.shape
-        # print('here1', L, H, W)
+        # print("here1", L, H, W)
         # swap color axis because
         # numpy image: H x W x C
         # torch image: C X H X W
-        # print('here2', landmarks.shape)
+        # print("here2", landmarks.shape)
         landmarks[:, 0] = landmarks[:, 0] * self.image_size // H
         landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
         landmarks += np.random.randint(-5, 5, size=landmarks.shape)
@@ -394,11 +394,11 @@ class ToTensorClassifier(object):
             # image_[i][image_[i] < 0] = 0.
             # image_[i][image_[i] > 1] = 1.
 
-            # print('here2', image_.shape)
+            # print("here2", image_.shape)
         # fsd()
         # print(images.shape)
-        return {'image': torch.from_numpy(images),
-                'landmarks': torch.from_numpy(classes)}
+        return {"image": torch.from_numpy(images),
+                "landmarks": torch.from_numpy(classes)}
 
 
 class ToTensorTestClassifier(object):
@@ -409,13 +409,13 @@ class ToTensorTestClassifier(object):
         self.path_size = path_size
 
     def __call__(self, sample):
-        image, landmarks = sample['image'], sample['landmarks']
+        image, landmarks = sample["image"], sample["landmarks"]
         H, L, W = image.shape
-        # print('here1', L, H, W)
+        # print("here1", L, H, W)
         # swap color axis because
         # numpy image: H x W x C
         # torch image: C X H X W
-        # print('here2', landmarks.shape)
+        # print("here2", landmarks.shape)
         landmarks[:, 0] = landmarks[:, 0] * self.image_size // H
         landmarks[:, 2] = landmarks[:, 2] * self.image_size // W
         # landmarks += np.random.randint(-5, 5, size=landmarks.shape)
@@ -473,11 +473,11 @@ class ToTensorTestClassifier(object):
             # image_[i][image_[i] < 0] = 0.
             # image_[i][image_[i] > 1] = 1.
 
-            # print('here2', image_.shape)
+            # print("here2", image_.shape)
         # fsd()
         # print(images.shape)
-        return {'image': torch.from_numpy(images),
-                'landmarks': torch.from_numpy(classes)}
+        return {"image": torch.from_numpy(images),
+                "landmarks": torch.from_numpy(classes)}
 
 
 class Rescale(object):
@@ -494,7 +494,7 @@ class Rescale(object):
         self.output_size = output_size
 
     def __call__(self, sample):
-        image, landmarks = sample['image'], sample['landmarks']
+        image, landmarks = sample["image"], sample["landmarks"]
 
         h, w = image.shape[:2]
         if isinstance(self.output_size, int):
@@ -513,4 +513,4 @@ class Rescale(object):
         # x and y axes are axis 1 and 0 respectively
         landmarks = landmarks * [new_w / w, new_h / h]
 
-        return {'image': img, 'landmarks': landmarks}
+        return {"image": img, "landmarks": landmarks}

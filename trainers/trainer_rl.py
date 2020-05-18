@@ -1,28 +1,12 @@
-import torch
-import sys
-
 from comet_ml import Experiment
-import imageio as imageio
-import matplotlib.pyplot as plt
 import numpy as np
-import os
-import pandas as pd
-import skimage
-import torch.nn as nn
-from termcolor import colored
-from torch import optim
 from torch.autograd import Variable
-import torch.nn.functional as F
-from dataloaders.dataloader2D import get_dataloader2D, get_dataloader2DJigSaw
-from models import conv2d
+from data.processed import get_dataloader2D
 from reinforcement_learning.landmark_detection_envirenment import LandmarkEnv
-from utils.evaluate import Evaluator
-from reinforcement_learning.config import env_name, initial_exploration, batch_size, update_target, goal_score, \
-    log_interval, device, \
+from reinforcement_learning.config import initial_exploration, batch_size, update_target, log_interval, device, \
     replay_memory_capacity, lr, N_LANDMARKS, HEIGHT, WIDTH
 import torch
 import torch.optim as optim
-import torch.nn.functional as F
 from reinforcement_learning.model import QNet
 from reinforcement_learning.memory import Memory
 
@@ -42,7 +26,7 @@ def update_target_model(online_net, target_net):
 
 class TrainerRL:
     def __init__(self, config):
-        self.experiment = Experiment(api_key='CQ4yEzhJorcxul2hHE5gxVNGu', project_name='HIP')
+        self.experiment = Experiment(api_key="CQ4yEzhJorcxul2hHE5gxVNGu", project_name="HIP")
         self.experiment.log_parameters(vars(config))
         self.config = config
         self.train_loader, self.test_loader = get_dataloader2D(config)
@@ -50,24 +34,17 @@ class TrainerRL:
         self.env = LandmarkEnv(self.train_loader)
         self.num_inputs = self.env.observation_space.shape
         self.num_actions = self.env.action_space.n
-        print('state size:', self.num_inputs)
-        print('action size:', self.num_actions)
-        self.online_net = []
-        self.target_net = []
-        self.optimizer = []
-        self.memory = []
-        for i in range(N_LANDMARKS):
-            self.online_net.append(QNet(self.num_inputs[0], self.num_inputs[1], self.num_actions))
-            self.target_net.append(QNet(self.num_inputs[0], self.num_inputs[1], self.num_actions))
-            update_target_model(self.online_net[i], self.target_net[i])
-
-            self.optimizer.append(optim.Adam(self.online_net[i].parameters(), lr=lr))
-
-            self.online_net[i].to(device)
-            self.target_net[i].to(device)
-            self.online_net[i].train()
-            self.target_net[i].train()
-            self.memory.append(Memory(replay_memory_capacity))
+        print("state size:", self.num_inputs)
+        print("action size:", self.num_actions)
+        self.online_net = QNet(self.num_inputs[0], self.num_inputs[1], self.num_actions)
+        self.target_net = QNet(self.num_inputs[0], self.num_inputs[1], self.num_actions)
+        update_target_model(self.online_net, self.target_net)
+        self.optimizer = optim.Adam(self.online_net.parameters(), lr=lr)
+        self.online_net.to(device)
+        self.target_net.to(device)
+        self.online_net.train()
+        self.target_net.train()
+        self.memory = Memory(replay_memory_capacity)
 
         self.running_score = 0
         self.epsilon = 1.0
@@ -87,11 +64,11 @@ class TrainerRL:
         # self.criterion_d = nn.MSELoss()
         # self.epochs = config.epochs
         # if torch.cuda.is_available():
-        #     print('Using CUDA')
+        #     print("Using CUDA")
         #     self.model = self.model.cuda()
         # #     self.model = self.model.cuda()
-        # self.pre_model_path = './artifacts/pre_models/' + str(config.lr) + '.pth'
-        # self.model_path = './artifacts/models/' + str(config.lr) + '.pth'
+        # self.pre_model_path = "./artifacts/pre_models/" + str(config.lr) + ".pth"
+        # self.model_path = "./artifacts/models/" + str(config.lr) + ".pth"
         # self.image_size = config.image_size
 
     def train(self):
@@ -128,11 +105,12 @@ class TrainerRL:
 
                     reward = reward  # if not done or score == 499 else -1
                     action_one_hot = np.zeros((N_LANDMARKS, self.num_actions))
+                    mask = []
                     for i in range(N_LANDMARKS):
-                        mask = 0 if done[i] else 1
+                        mask.append(0 if done[i] else 1)
                         action_one_hot[i][actions[i]] = 1
-                        self.memory[i].push(state[i].to(device), next_state[i].to(device), action_one_hot[i], reward[i],
-                                            mask)
+
+                    self.memory.push(state.to(device), next_state.to(device), action_one_hot, reward, mask)
 
                     score += np.mean(reward)
                     state = next_state
@@ -140,22 +118,22 @@ class TrainerRL:
                     if steps > initial_exploration:
                         # print(steps)
                         epsilon -= 0.05
-                        if steps % 100:
+                        if steps % 1000:
                             randomness += 1
-                        randomness = min(randomness, 50)
+                        randomness = min(randomness, 5)
                         epsilon = max(epsilon, 0.1)
                         for i in range(N_LANDMARKS):
-                            batch = self.memory[i].sample(batch_size)
+                            batch = self.memory.sample(batch_size)
                             # print(batch.state)
-                            loss = QNet.train_model(self.online_net[i], self.target_net[i], self.optimizer[i], batch)
+                            loss = QNet.train_model(self.online_net, self.target_net, self.optimizer, batch)
 
                             if steps % update_target == 0:
-                                update_target_model(self.online_net[i], self.target_net[i])
+                                update_target_model(self.online_net[i], self.target_net)
 
                 # score = score if score == 500.0 else score + 1
                 # running_score = 0.99 * running_score + 0.01 * score
                 if e % log_interval == 0:
-                    print('{} episode | steps: {:.2f} | epsilon: {:.2f} | distance: {:.2f} | done {:.2f}'.format(
+                    print("{} episode | steps: {:.2f} | epsilon: {:.2f} | distance: {:.2f} | done {:.2f}".format(
                         e, steps, epsilon, np.mean(self.env.distances), np.mean(done)))
                     # play(env, target_net, epsilon)
                 # if running_score > goal_score:
@@ -195,8 +173,8 @@ class TrainerRL:
         #                 loss.backward()
         #                 self.net_optimizer.step()
         #                 # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
-        #                 self.experiment.log_metric('loss', loss.item())
-        #                 print('loss: {}'.format(loss.item()))
+        #                 self.experiment.log_metric("loss", loss.item())
+        #                 print("loss: {}".format(loss.item()))
         #         if epoch % self.log_step == 0:
         #             with self.experiment.test():
         #                 self.evaluate()
@@ -228,7 +206,7 @@ class TrainerRL:
         #         landmarks = landmarks.float() / self.image_size
         #         loss += self.criterion_d(detected_points, landmarks[:, :, [0, 2]]).item()
         #         self.plots(y_slices.cpu(), landmarks[:, :, [0, 2]], detected_points)
-        #     self.experiment.log_metric('loss', loss / len(test_loader))
+        #     self.experiment.log_metric("loss", loss / len(test_loader))
 
     def plots(self, slices, real, predicted):
         # figure, axes = plt.subplots(nrows=4, ncols=4, figsize=(15, 15))
@@ -244,12 +222,12 @@ class TrainerRL:
         #     for j in range(4):
         #         axes[i, j].imshow(slices[s])
         #         x, z = real[s]
-        #         axes[i, j].scatter(x, z, color='red')
+        #         axes[i, j].scatter(x, z, color="red")
         #         x, z = predicted[s]
-        #         axes[i, j].scatter(x, z, color='blue')
+        #         axes[i, j].scatter(x, z, color="blue")
         #         s += 1
         # self.experiment.log_figure(figure=plt)
-        # plt.savefig('artifacts/predictions/img.png')
+        # plt.savefig("artifacts/predictions/img.png")
         # plt.show()
         ...
 

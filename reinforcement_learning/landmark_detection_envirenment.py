@@ -53,7 +53,7 @@ def calculate_reward(pred, target, action):
 
 class LandmarkEnv(gym.Env):
     """Custom Environment that follows gym interface"""
-    metadata = {'render.modes': ['human']}
+    metadata = {"render.modes": ["human"]}
 
     def __init__(self, loader):
         super(LandmarkEnv, self).__init__()
@@ -151,6 +151,9 @@ class LandmarkEnv(gym.Env):
         return self._next_observation()
 
     def _next_observation(self):
+        """
+        return a list of images of the location of current landmarks shape (N_LANDMARKS, WIDTH, HEIGHT).
+        """
         result = np.zeros((N_LANDMARKS, WIDTH, HEIGHT))
         for i in range(N_LANDMARKS):
             x_center, y_center = self.current[i][0], self.current[i][1]
@@ -175,25 +178,25 @@ class LandmarkEnv(gym.Env):
             result[i] = self.image[i, x_start:x_finish, y_start:y_finish]
         return result
 
-    def render(self, mode='human', close=False):
+    def render(self, mode="human", close=False):
         # Render the environment to the screen
         fig, ax = plt.subplots(1)
 
         ax.imshow(self.image[FOLLOW_LANDMAKR])
         # Create a Rectangle patch
-        rect = patches.Rectangle((self.x_start, self.y_start), WIDTH, HEIGHT, linewidth=1, edgecolor='r',
-                                 facecolor='none')
+        rect = patches.Rectangle((self.x_start, self.y_start), WIDTH, HEIGHT, linewidth=1, edgecolor="r",
+                                 facecolor="none")
 
         # Add the patch to the Axes
         ax.add_patch(rect)
         x_center, y_center = self.current[FOLLOW_LANDMAKR]
-        plt.scatter(x_center, y_center, label='pred')
+        plt.scatter(x_center, y_center, label="pred")
         x_center, y_center = self.index[FOLLOW_LANDMAKR]
-        plt.scatter(x_center, y_center, label='real')
+        plt.scatter(x_center, y_center, label="real")
         # plt.ylim(0, self.W - 1)
         # plt.xlim(0, self.H - 1)
         plt.legend()
-        plt.savefig(f'artifacts/predictions/img_{self.i}_{self.current_step}.png')
+        plt.savefig(f"artifacts/predictions/img_{self.i}_{self.current_step}.png")
         # self.frames.append(plt.show(block=False).get_array())
         # plt.pause(3)
         # plt.close()
@@ -203,7 +206,7 @@ class LandmarkEnv(gym.Env):
         import glob
 
         img_array = []
-        for filename in glob.glob(f'artifacts/predictions/img_{self.i}_*.png'):
+        for filename in glob.glob(f"artifacts/predictions/img_{self.i}_*.png"):
             import os
 
             img = cv2.imread(filename)
@@ -213,7 +216,7 @@ class LandmarkEnv(gym.Env):
             img_array.append(img)
             os.remove(filename)
 
-        out = cv2.VideoWriter(f'artifacts/predictions/video_{self.i}.avi', cv2.VideoWriter_fourcc(*'DIVX'), 15, size)
+        out = cv2.VideoWriter(f"artifacts/predictions/video_{self.i}.avi", cv2.VideoWriter_fourcc(*"DIVX"), 15, size)
 
         for i in range(len(img_array)):
             out.write(img_array[i])

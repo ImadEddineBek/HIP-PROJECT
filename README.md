@@ -57,9 +57,9 @@ optional arguments:
   --batch_size BATCH_SIZE
   --num_workers NUM_WORKERS
   --pre_lr PRE_LR       learning rate for the source domain pre-training
-  --lr1 LR1             encoder's and classifier's learning rate for domain
+  --lr1 LR1             encoder"s and classifier"s learning rate for domain
                         adaptation
-  --lr2 LR2             discriminator's learning rate
+  --lr2 LR2             discriminator"s learning rate
   --random_seed RANDOM_SEED
   --labeled_target_ratio LABELED_TARGET_RATIO
                         ratio of target domain used for labeling

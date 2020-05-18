@@ -1,21 +1,11 @@
 import torch
-import sys
 
 from comet_ml import Experiment
-import imageio as imageio
-import matplotlib.pyplot as plt
 import numpy as np
-import os
-import pandas as pd
-import skimage
 import torch.nn as nn
-from sklearn.metrics import accuracy_score
-from termcolor import colored
 from torch import optim
 from torch.autograd import Variable
-import torch.nn.functional as F
-from dataloaders.dataloader2D import *
-from models import conv2d, classifier2d
+from models import classifier2d
 from utils.evaluate import Evaluator
 
 
@@ -27,7 +17,7 @@ def accuracy_function(true_labels, predicted_labels):
 
 class Trainer2DClassifier:
     def __init__(self, config):
-        self.experiment = Experiment(api_key='CQ4yEzhJorcxul2hHE5gxVNGu', project_name='HIP')
+        self.experiment = Experiment(api_key="CQ4yEzhJorcxul2hHE5gxVNGu", project_name="HIP")
         self.config = config
         self.experiment.log_parameters(vars(config))
 
@@ -76,8 +66,8 @@ class Trainer2DClassifier:
                     loss.backward()
                     self.net_optimizer.step()
                     # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
-                    self.experiment.log_metric('loss', loss.item())
-                    print('loss: {}'.format(loss.item()))
+                    self.experiment.log_metric("loss", loss.item())
+                    print("loss: {}".format(loss.item()))
             if (epoch + 1) % self.log_step == 0:
                 with self.experiment.test():
                     self.evaluate()
@@ -108,10 +98,10 @@ class Trainer2DClassifier:
                 loss += self.criterion_c(detected_points, classes).item()
                 accuracy += accuracy_function(classes.cpu().detach(), detected_points.cpu().detach()).item()
                 # self.plots(y_slices, landmarks[:, :, [0, 2]], detected_points)
-            print('loss', loss / len(test_loader))
-            self.experiment.log_metric('loss', loss / len(test_loader))
-            print('accuracy', accuracy / len(test_loader))
-            self.experiment.log_metric('accuracy', accuracy / len(test_loader))
+            print("loss", loss / len(test_loader))
+            self.experiment.log_metric("loss", loss / len(test_loader))
+            print("accuracy", accuracy / len(test_loader))
+            self.experiment.log_metric("accuracy", accuracy / len(test_loader))
 
     def plots(self, slices, real, predicted):
         pass
@@ -128,12 +118,12 @@ class Trainer2DClassifier:
         #     for j in range(4):
         #         axes[i, j].imshow(slices[s])
         #         x, z = real[s]
-        #         axes[i, j].scatter(x, z, color='red')
+        #         axes[i, j].scatter(x, z, color="red")
         #         x, z = predicted[s]
-        #         axes[i, j].scatter(x, z, color='blue')
+        #         axes[i, j].scatter(x, z, color="blue")
         #         s += 1
         # self.experiment.log_figure(figure=plt)
-        # plt.savefig('artifacts/predictions/img.png')
+        # plt.savefig("artifacts/predictions/img.png")
         # plt.show()
 
     def to_var(self, x):

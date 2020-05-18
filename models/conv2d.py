@@ -89,7 +89,7 @@ class Conv2DPatches(nn.Module):
         # print(B, L, H, W)
         x_encoded = self.features(x.view(B * L, 1, H, W).float())
         # x = self.classifier(x.view(B, -1))
-        # print('here', x_encoded.size())
+        # print("here", x_encoded.size())
         jig_out = self.jigsaw_classifier(x_encoded.view(B * L, -1))
         detected_points = torch.zeros([B, L, 2], dtype=torch.float32)
         if torch.cuda.is_available():

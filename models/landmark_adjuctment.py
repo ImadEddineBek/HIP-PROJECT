@@ -4,10 +4,11 @@ from itertools import chain
 import torch
 from IPython.core.debugger import set_trace
 from torch import nn as nn
+import torch.nn.functional as F
 
 
 class LandmarkAdjuster(nn.Module):
-    def __init__(self, image_size=20):
+    def __init__(self, image_size=20, n_classes=8):
         super(LandmarkAdjuster, self).__init__()
         print("Using 2D Convolutional Patched model")
         self.features = nn.Sequential(OrderedDict([
@@ -21,9 +22,13 @@ class LandmarkAdjuster(nn.Module):
         self.fc_size = 144
 
         self.point_detectors = []
-        self.point_detectors = nn.Sequential(
-            nn.Linear(self.fc_size, 2),
-        )
+        for i in range(n_classes):
+            self.point_detectors.append(nn.Sequential(
+                nn.ReLU(),
+                nn.Linear(self.fc_size, self.fc_size // 4),
+                nn.ReLU(),
+                nn.Linear(self.fc_size // 4, 5),
+            ))
         self.point_detectors = nn.ModuleList(self.point_detectors)
 
         for m in self.modules():
@@ -46,7 +51,7 @@ class LandmarkAdjuster(nn.Module):
         # print(B, L, H, W)
         x_encoded = self.features(x.view(B * L, 1, H, W).float())
         # x = self.classifier(x.view(B, -1))
-        # print('here', x_encoded.size())
+        # print("here", x_encoded.size())
         jig_out = self.jigsaw_classifier(x_encoded.view(B * L, -1))
         detected_points = torch.zeros([B, L, 2], dtype=torch.float32)
         if torch.cuda.is_available():

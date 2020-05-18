@@ -60,8 +60,8 @@ def main():
     torch.manual_seed(500)
     num_inputs = env.observation_space.shape[0]
     num_actions = env.action_space.n
-    print('state size:', num_inputs)
-    print('action size:', num_actions)
+    print("state size:", num_inputs)
+    print("action size:", num_actions)
 
     online_net = QNet(num_inputs, num_actions)
     target_net = QNet(num_inputs, num_actions)
@@ -117,7 +117,7 @@ def main():
         score = score if score == 500.0 else score + 1
         running_score = 0.99 * running_score + 0.01 * score
         if e % log_interval == 0:
-            print('{} episode | score: {:.2f} | epsilon: {:.2f}'.format(
+            print("{} episode | score: {:.2f} | epsilon: {:.2f}".format(
                 e, running_score, epsilon))
             play(env, target_net, epsilon)
         if running_score > goal_score:

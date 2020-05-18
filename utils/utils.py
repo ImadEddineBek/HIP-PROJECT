@@ -2,11 +2,11 @@ import os
 from glob import glob
 import numpy as np
 
-root = 'DeepLearning'
+root = "DeepLearning"
 
 
 def fix_path():
-    # os.chdir('/Users/imad/PycharmProjects/')
+    # os.chdir("/Users/imad/PycharmProjects/")
     current = os.getcwd()
     # print(os.getcwd())
     if root in current:
@@ -19,8 +19,8 @@ def fix_path():
         os.chdir(fixed_path)
     else:
         search = current + "/*/"
-        if '//' in search:
-            search = str(search).replace('//', '/')
+        if "//" in search:
+            search = str(search).replace("//", "/")
         potentials = glob(search)
         potentials = [glob(search_i + "/*/") for search_i in potentials]
         # print(potentials)
